@@ -30,6 +30,7 @@ namespace ResAktWebb.Controllers
         //Denna ska finnas i en riktig controller senare
         public async Task<IActionResult> Test()
         {
+            //Models.Activity används istället för bara Activity eftersom det blir en conflict med system.diagnostics.activity annars
             List<Models.Activity> activities = new List<Models.Activity>();
             try
             {
