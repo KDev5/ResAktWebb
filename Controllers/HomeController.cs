@@ -6,12 +6,15 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Net.Http;
+using Newtonsoft.Json;
 
 namespace ResAktWebb.Controllers
 {
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        static readonly HttpClient client = new HttpClient();
 
         public HomeController(ILogger<HomeController> logger)
         {
@@ -23,6 +26,24 @@ namespace ResAktWebb.Controllers
             return View();
         }
 
+        //För att testa att webbsidan kan hämta information från API
+        //Denna ska finnas i en riktig controller senare
+        public async Task<IActionResult> Test()
+        {
+            List<Models.Activity> activities = new List<Models.Activity>();
+            try
+            {
+                var response = await client.GetAsync("API URL HÄR");
+                string jsonresponse = await response.Content.ReadAsStringAsync();
+                activities = JsonConvert.DeserializeObject<List<Models.Activity>>(jsonresponse);
+            }
+            catch (Exception e)
+            {
+                System.Diagnostics.Debug.WriteLine(e.Message);
+            }
+            return View(activities);
+        }
+
         public IActionResult Privacy()
         {
             return View();
@@ -31,7 +52,7 @@ namespace ResAktWebb.Controllers
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            return View(new ErrorViewModel { RequestId = System.Diagnostics.Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
     }
 }
