@@ -160,6 +160,7 @@ namespace ResAktWebb.Controllers
             return View(reservation);
         }
 
+        //D
         // POST: Reservations/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
