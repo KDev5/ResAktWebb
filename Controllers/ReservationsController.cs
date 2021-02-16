@@ -9,6 +9,7 @@ using ResAktWebb.Data;
 using ResAktWebb.Models;
 using System.Net.Http;
 using Newtonsoft.Json;
+using System.Text;
 
 namespace ResAktWebb.Controllers
 {
@@ -76,29 +77,34 @@ namespace ResAktWebb.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,StartTime,EndTime,CustomerName,NumParticipants,TableNum")] Reservation reservation)
         {
-            if (ModelState.IsValid)
+            var a = new Reservation();
+            using (HttpClient c = new HttpClient())
             {
-                _context.Add(reservation);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                string dataAsJson = JsonConvert.SerializeObject(reservation);
+                var r = await c.PostAsync("http://193.10.202.82/grupp5/api/reservations/", new StringContent(dataAsJson, Encoding.UTF8, "application/json"));
             }
-            return View(reservation);
+            return View(a);
         }
 
         // GET: Reservations/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null)
+            var a = new Reservation();
+            using (HttpClient c = new HttpClient())
             {
-                return NotFound();
-            }
+                var r = await c.GetAsync("http://193.10.202.82/grupp5/api/reservations/" + id);
+                string jsonResponse = await r.Content.ReadAsStringAsync();
+                try
+                {
+                    a = JsonConvert.DeserializeObject<Reservation>(jsonResponse);
+                }
+                catch (Exception)
+                {
 
-            var reservation = await _context.Reservation.FindAsync(id);
-            if (reservation == null)
-            {
-                return NotFound();
+                    throw;
+                }
             }
-            return View(reservation);
+            return View(a);
         }
 
         // POST: Reservations/Edit/5
