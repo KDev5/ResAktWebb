@@ -81,13 +81,21 @@ namespace ResAktWebb.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Description,Location,Price,StartTime,EndTime")] Activity activity)
         {
-            if (ModelState.IsValid)
+
+			using (HttpClient c = new HttpClient())
+			{
+                var r = await c.PostAsJsonAsync(api + "Activities", activity);
+			}
+
+
+            return RedirectToAction("Index");
+           /* if (ModelState.IsValid)
             {
                 _context.Add(activity);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(activity);
+            return View(activity);*/
         }
 
         // GET: Activities/Edit/5
@@ -102,17 +110,10 @@ namespace ResAktWebb.Controllers
 
                 a = JsonConvert.DeserializeObject<Activity>(jR);
 			}
-
-            // Ändra Activity
-
-            // Spara Activity
-
             return View(a);
         }
 
         // POST: Activities/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Description,Location,Price,StartTime,EndTime")] Activity activity)
@@ -128,19 +129,16 @@ namespace ResAktWebb.Controllers
         // GET: Activities/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null)
+            var a = new Activity();
+            using (HttpClient c = new HttpClient())
             {
-                return NotFound();
+                var r = await c.GetAsync(api + "Activities/" + id);
+                var jR = await r.Content.ReadAsStringAsync();
+
+                a = JsonConvert.DeserializeObject<Activity>(jR);
             }
 
-            var activity = await _context.Activity
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (activity == null)
-            {
-                return NotFound();
-            }
-
-            return View(activity);
+            return View(a);
         }
 
         // POST: Activities/Delete/5
@@ -148,9 +146,10 @@ namespace ResAktWebb.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var activity = await _context.Activity.FindAsync(id);
-            _context.Activity.Remove(activity);
-            await _context.SaveChangesAsync();
+			using (HttpClient c = new HttpClient())
+			{
+                var r = await c.DeleteAsync(api + "Activities/" + id);
+			}
             return RedirectToAction(nameof(Index));
         }
 
