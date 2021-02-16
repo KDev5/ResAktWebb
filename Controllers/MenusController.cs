@@ -17,7 +17,7 @@ namespace ResAktWebb.Controllers
     {
         private readonly ResAktWebbContext _context;
         static readonly HttpClient client = new HttpClient();
-
+        string api = "http://informatik12.ei.hv.se/grupp5/api/";
 
         public MenusController(ResAktWebbContext context)
         {
@@ -50,7 +50,7 @@ namespace ResAktWebb.Controllers
             Menu menu = new Menu();
             try
             {
-                var response = await client.GetAsync("http://193.10.202.82/grupp5/api/menus/"+id);
+                var response = await client.GetAsync(api +"menus/"+ id);
                 string jsonresponse = await response.Content.ReadAsStringAsync();
                 menu = JsonConvert.DeserializeObject<Menu>(jsonresponse);
 
@@ -81,8 +81,8 @@ namespace ResAktWebb.Controllers
                 var temp = new Menu();
                 using (HttpClient c = new HttpClient())
                 {
-                    string dataAsJson = JsonConvert.SerializeObject(menu);
-                    var r = await c.PostAsync("http://193.10.202.82/grupp5/api/menus/", new StringContent(dataAsJson, Encoding.UTF8, "application/json"));
+                    string x = JsonConvert.SerializeObject(menu);
+                    var r = await c.PostAsync(api, new StringContent(x, Encoding.UTF8, "application/json"));
                 }
 
                 return View(temp);
@@ -95,9 +95,9 @@ namespace ResAktWebb.Controllers
             Menu menu = new Menu();
             try
             {
-                var response = await client.GetAsync("http://193.10.202.82/grupp5/api/menus/" + id);
-                string jsonresponse = await response.Content.ReadAsStringAsync();
-                menu = JsonConvert.DeserializeObject<Menu>(jsonresponse);
+                var response = await client.GetAsync(api + "menus/" + id);
+                string x = await response.Content.ReadAsStringAsync();
+                menu = JsonConvert.DeserializeObject<Menu>(x);
 
             }
             catch (Exception e)
@@ -114,32 +114,16 @@ namespace ResAktWebb.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Name")] Menu menu)
         {
-            if (id != menu.Id)
             {
-                return NotFound();
-            }
+                var temp = new Menu();
+                using (HttpClient c = new HttpClient())
+                {
+                    string x = JsonConvert.SerializeObject(menu);
+                    var r = await c.PutAsync(api + id, new StringContent(x, Encoding.UTF8, "application/json"));
+                }
 
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(menu);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!MenuExists(menu.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
+                return View(temp);
             }
-            return View(menu);
         }
 
         // GET: Menus/Delete/5
@@ -149,9 +133,9 @@ namespace ResAktWebb.Controllers
             try
             {
 
-                var response = await client.GetAsync("http://193.10.202.82/grupp5/api/menus/" + id);
-                string jsonresponse = await response.Content.ReadAsStringAsync();
-                menu = JsonConvert.DeserializeObject<Menu>(jsonresponse);
+                var response = await client.GetAsync(api + "menus/" + id);
+                string x = await response.Content.ReadAsStringAsync();
+                menu = JsonConvert.DeserializeObject<Menu>(x);
 
             }
             catch (Exception e)
@@ -166,9 +150,10 @@ namespace ResAktWebb.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var menu = await _context.Menu.FindAsync(id);
-            _context.Menu.Remove(menu);
-            await _context.SaveChangesAsync();
+            using (HttpClient c = new HttpClient())
+            {
+                var r = await c.DeleteAsync(api + "menus/" + id);
+            }
             return RedirectToAction(nameof(Index));
         }
 
