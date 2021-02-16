@@ -34,7 +34,7 @@ namespace ResAktWebb.Controllers
             List<Models.Activity> activities = new List<Models.Activity>();
             try
             {
-                var response = await client.GetAsync("API URL HÄR");
+                var response = await client.GetAsync("http://193.10.202.82/grupp5/api/activities");
                 string jsonresponse = await response.Content.ReadAsStringAsync();
                 activities = JsonConvert.DeserializeObject<List<Models.Activity>>(jsonresponse);
             }
