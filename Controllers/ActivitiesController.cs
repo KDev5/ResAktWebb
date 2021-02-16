@@ -22,16 +22,14 @@ namespace ResAktWebb.Controllers
         }
 
         // Connectionstring till api
-        string api = "http://informatik12.ei.hv.se/grupp5/api/";
+        string api = "http://informatik12.ei.hv.se/grupp5/api/Activities/";
 
-
-        //
         public async Task<IActionResult> Index()
         {
             List<Activity> a = new List<Activity>();
             HttpClient client = new HttpClient();
 
-            var r = await client.GetAsync(api + "Activities");
+            var r = await client.GetAsync(api);
             string jsonR = await r.Content.ReadAsStringAsync();
 			try
 			{
@@ -53,7 +51,7 @@ namespace ResAktWebb.Controllers
             var a = new Activity();
 			using (HttpClient c = new HttpClient ())
 			{
-                var r = await c.GetAsync(api + "Activities/" + id);
+                var r = await c.GetAsync(api + id);
                 string jR = await r.Content.ReadAsStringAsync();
 				try
 				{
@@ -84,18 +82,11 @@ namespace ResAktWebb.Controllers
 
 			using (HttpClient c = new HttpClient())
 			{
-                var r = await c.PostAsJsonAsync(api + "Activities", activity);
+                var r = await c.PostAsJsonAsync(api, activity);
 			}
 
-
             return RedirectToAction("Index");
-           /* if (ModelState.IsValid)
-            {
-                _context.Add(activity);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            return View(activity);*/
+  
         }
 
         // GET: Activities/Edit/5
@@ -105,7 +96,7 @@ namespace ResAktWebb.Controllers
             // Hämta activity
 			using (HttpClient c = new HttpClient())
 			{
-                var r = await c.GetAsync(api + "Activities/" + id);
+                var r = await c.GetAsync(api + id);
                 var jR = await r.Content.ReadAsStringAsync();
 
                 a = JsonConvert.DeserializeObject<Activity>(jR);
@@ -120,7 +111,7 @@ namespace ResAktWebb.Controllers
         {
 				using (HttpClient c = new HttpClient())
 				{
-                    var response = await c.PutAsJsonAsync(api + "Activities/" + id, activity);
+                    var response = await c.PutAsJsonAsync(api + id, activity);
 				}
                 
                 return RedirectToAction("Details","Activities");
@@ -132,7 +123,7 @@ namespace ResAktWebb.Controllers
             var a = new Activity();
             using (HttpClient c = new HttpClient())
             {
-                var r = await c.GetAsync(api + "Activities/" + id);
+                var r = await c.GetAsync(api + id);
                 var jR = await r.Content.ReadAsStringAsync();
 
                 a = JsonConvert.DeserializeObject<Activity>(jR);
@@ -148,7 +139,7 @@ namespace ResAktWebb.Controllers
         {
 			using (HttpClient c = new HttpClient())
 			{
-                var r = await c.DeleteAsync(api + "Activities/" + id);
+                var r = await c.DeleteAsync(api + id);
 			}
             return RedirectToAction(nameof(Index));
         }
