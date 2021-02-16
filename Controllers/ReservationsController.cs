@@ -145,19 +145,22 @@ namespace ResAktWebb.Controllers
         // GET: Reservations/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null)
+            var a = new Reservation();
+            using (HttpClient c = new HttpClient())
             {
-                return NotFound();
-            }
+                var r = await c.GetAsync("http://193.10.202.82/grupp5/api/reservations/" + id);
+                string jsonResponse = await r.Content.ReadAsStringAsync();
+                try
+                {
+                    a = JsonConvert.DeserializeObject<Reservation>(jsonResponse);
+                }
+                catch (Exception)
+                {
 
-            var reservation = await _context.Reservation
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (reservation == null)
-            {
-                return NotFound();
+                    throw;
+                }
             }
-
-            return View(reservation);
+            return View(a);
         }
 
         //D
