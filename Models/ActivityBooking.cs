@@ -9,9 +9,10 @@ namespace ResAktWebb.Models
     {
         public int Id { get; set; }
         public string CustomerName { get; set; }
-        public Activity Activity { get; set; }
         public int NumParticipants { get; set; }
-        public DateTime StartTime { get; set; }
-        public DateTime EndTime { get; set; }
-    }
+ 
+        // FK
+		public int ActivityId { get; set; }
+        public Activity Activity { get; set; }
+	}
 }
