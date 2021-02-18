@@ -82,7 +82,7 @@ namespace ResAktWebb.Controllers
                 using (HttpClient c = new HttpClient())
                 {
                     string x = JsonConvert.SerializeObject(menu);
-                    var r = await c.PostAsync(api, new StringContent(x, Encoding.UTF8, "application/json"));
+                    var r = await c.PostAsync(api + "menus/", new StringContent(x, Encoding.UTF8, "application/json"));
                 }
 
                 return View(temp);
@@ -119,7 +119,7 @@ namespace ResAktWebb.Controllers
                 using (HttpClient c = new HttpClient())
                 {
                     string x = JsonConvert.SerializeObject(menu);
-                    var r = await c.PutAsync(api + id, new StringContent(x, Encoding.UTF8, "application/json"));
+                    var r = await c.PutAsync(api + "menus/" +  id, new StringContent(x, Encoding.UTF8, "application/json"));
                 }
 
                 return View(temp);

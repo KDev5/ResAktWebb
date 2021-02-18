@@ -1,4 +1,4 @@
-﻿@model IEnumerable<ResAktWebb.Models.Menu>
+﻿@model IEnumerable<ResAktWebb.Models.MenuCategory>
 
 @{
     ViewData["Title"] = "Index";
@@ -15,6 +15,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.Name)
             </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Menu)
+            </th>
             <th></th>
         </tr>
     </thead>
@@ -25,8 +28,9 @@
                 @Html.DisplayFor(modelItem => item.Name)
             </td>
             <td>
-                <a asp-controller="MenuCategories" asp-action="Index" asp-route-id="@item.Id">Katergorier</a>
-                <a asp-controller="menuItems" asp-action="Index" asp-route-id="@item.Id">Maträtter</a>
+                @Html.DisplayFor(modelItem => item.Menu.Id)
+            </td>
+            <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
                 <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
                 <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>

@@ -20,5 +20,9 @@ namespace ResAktWebb.Data
         public DbSet<ResAktWebb.Models.Reservation> Reservation { get; set; }
 
         public DbSet<ResAktWebb.Models.Menu> Menu { get; set; }
+
+        public DbSet<ResAktWebb.Models.MenuCategory> MenuCategory { get; set; }
+
+        public DbSet<ResAktWebb.Models.MenuItems> MenuItems { get; set; }
     }
 }
