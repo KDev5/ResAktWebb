@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
@@ -6,22 +7,25 @@ using System.Threading.Tasks;
 
 namespace ResAktWebb.Models
 {
-
-	// https://jankcat.com/2016/03/27/net-simple-http-client-helper-class/
-	public class RestHelper
+	public class RestHelper // <T> Detta kan vidareutvecklas
 	{
 		// Skapar en statisk httpclient som kan användas genom hela projektet.
 		private static readonly HttpClient client = new HttpClient();
 		// Connectionstring till api.
-		private static readonly string connString = "http://informatik12.ei.hv.se/grupp5/api/";
-
-		public static async Task<List<T>> ApiGet<T>(string model)
+		private static readonly string api = "http://informatik12.ei.hv.se/grupp5/api/";
+		
+		// API / GET
+		public static async Task<List<T>> ApiGet<T>(string apiPath)
 		{
 			// Generisk lista som kan spara olika typer av klasser.
 			var returnList = new List<T>();
 			try
 			{
-				var res = await client.GetAsync(connString + "MODELNAME GOES HERE");
+				var res = await client.GetAsync(api + apiPath);
+				
+				var jRes = await res.Content.ReadAsStringAsync();
+
+				returnList = JsonConvert.DeserializeObject<List<T>>(jRes);
 			}
 			catch (Exception e)
 			{
@@ -31,7 +35,30 @@ namespace ResAktWebb.Models
 
 			return returnList;
 		}
+		// API / GET / ID - Överladdad getmetod för att hämta enskilt objekt.
+		public static async Task<T> ApiGet<T>(string apiPath, int? id)
+		{
+			var res = await client.GetAsync(api + apiPath + id);
+			System.Diagnostics.Debug.WriteLine($"response is: \n {res} \n");
 
+			var jRes = await res.Content.ReadAsStringAsync();
+			System.Diagnostics.Debug.WriteLine($"jRes is: \n {jRes}\n");
+			
+			var returnObj = JsonConvert.DeserializeObject<T>(jRes);
+			System.Diagnostics.Debug.WriteLine($"returnObj is: \n {returnObj}\n");
+
+			return returnObj;
+			 
+		} 
+
+		public static async Task<T> ApiCreate<T>(string apiPath, T newObj)
+		{
+			_ = await client.PostAsJsonAsync(api + apiPath, newObj);
+			return newObj;
+
+		}
+
+		
 
 
 
