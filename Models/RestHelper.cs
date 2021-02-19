@@ -7,19 +7,14 @@ using System.Threading.Tasks;
 
 namespace ResAktWebb.Models
 {
-
-	// https://jankcat.com/2016/03/27/net-simple-http-client-helper-class/
 	public class RestHelper // <T> Detta kan vidareutvecklas
 	{
 		// Skapar en statisk httpclient som kan användas genom hela projektet.
 		private static readonly HttpClient client = new HttpClient();
 		// Connectionstring till api.
 		private static readonly string api = "http://informatik12.ei.hv.se/grupp5/api/";
-
-
-		// Jobba vidare på detta ? 
-		// public T value { get; set; }
-
+		
+		// API / GET
 		public static async Task<List<T>> ApiGet<T>(string apiPath)
 		{
 			// Generisk lista som kan spara olika typer av klasser.
@@ -40,7 +35,7 @@ namespace ResAktWebb.Models
 
 			return returnList;
 		}
-		// GET/ID - Överladdad getmetod för att hämta enskilt objekt.
+		// API / GET / ID - Överladdad getmetod för att hämta enskilt objekt.
 		public static async Task<T> ApiGet<T>(string apiPath, int? id)
 		{
 			var res = await client.GetAsync(api + apiPath + id);
