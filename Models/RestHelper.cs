@@ -50,12 +50,16 @@ namespace ResAktWebb.Models
 			return returnObj;
 			 
 		} 
-
-		public static async Task<T> ApiCreate<T>(string apiPath, T newObj)
+		// API / POST
+		public static async Task ApiCreate<T>(string apiPath, T newObj)
 		{
-			_ = await client.PostAsJsonAsync(api + apiPath, newObj);
-			return newObj;
+			await client.PostAsJsonAsync(api + apiPath, newObj);
+		}
 
+		// API / PUT
+		public static async Task ApiEdit<T>(string apiPath, T oldObj)
+		{
+			await client.PutAsJsonAsync(api + apiPath, oldObj);
 		}
 
 		
