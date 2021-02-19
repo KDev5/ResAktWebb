@@ -35,17 +35,14 @@ namespace ResAktWebb.Models
 
 			return returnList;
 		}
-		// API / GET / ID - Överladdad getmetod för att hämta enskilt objekt.
+		// API / GET / ID - Överladdad get-metod för att hämta enskilt objekt.
 		public static async Task<T> ApiGet<T>(string apiPath, int? id)
 		{
 			var res = await client.GetAsync(api + apiPath + id);
-			System.Diagnostics.Debug.WriteLine($"response is: \n {res} \n");
 
 			var jRes = await res.Content.ReadAsStringAsync();
-			System.Diagnostics.Debug.WriteLine($"jRes is: \n {jRes}\n");
 			
 			var returnObj = JsonConvert.DeserializeObject<T>(jRes);
-			System.Diagnostics.Debug.WriteLine($"returnObj is: \n {returnObj}\n");
 
 			return returnObj;
 			 
