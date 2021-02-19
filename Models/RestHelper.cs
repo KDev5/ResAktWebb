@@ -62,6 +62,12 @@ namespace ResAktWebb.Models
 			await client.PutAsJsonAsync(api + apiPath, oldObj);
 		}
 
+		// API / DELETE
+		public static async Task ApiDelete<T>(string apiPath, int? id)
+		{
+			await client.DeleteAsync(api + apiPath + id);
+		}
+
 		
 
 
