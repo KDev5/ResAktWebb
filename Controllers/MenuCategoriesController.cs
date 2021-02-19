@@ -18,6 +18,7 @@ namespace ResAktWebb.Controllers
         private readonly ResAktWebbContext _context;
         static readonly HttpClient client = new HttpClient();
         string api = "http://informatik12.ei.hv.se/grupp5/api/";
+        string menuCatApi = "menuCategories";
         public MenuCategoriesController(ResAktWebbContext context)
         {
             _context = context;
@@ -26,16 +27,16 @@ namespace ResAktWebb.Controllers
         // GET: MenuCategories
         public async Task<IActionResult> Index(int? id)
         {
-            List<MenuCategory> menuCategories = new List<MenuCategory>();
+
+            var menuCategories = await RestHelper.ApiGet<MenuCategory>(menuCatApi);
+            //var menu = await RestHelper.ApiGet<MenuCategory>("menus", id);
 
             List<MenuCategory> categoriesForMenuId = new List<MenuCategory>();
-
-            try
-            {
-
-                var categoryResponse = await client.GetAsync(api + "menuCategories");
-                string Jsonresponse = await categoryResponse.Content.ReadAsStringAsync();
-                menuCategories = JsonConvert.DeserializeObject<List<MenuCategory>>(Jsonresponse);
+            Menu menu = new Menu();
+            var menuResponse = await client.GetAsync(api + "menus/" + id);
+            string menuJsonResponse = await menuResponse.Content.ReadAsStringAsync();
+            menu = JsonConvert.DeserializeObject<Menu>(menuJsonResponse);
+            ViewData["Menu"] = menu.Name;
                 foreach (var item in menuCategories)
                 {
                     if (item.MenuId == id)
@@ -44,17 +45,14 @@ namespace ResAktWebb.Controllers
                     }
                     System.Diagnostics.Debug.WriteLine(item.Name + ", " + item.MenuId);
                 }
-            }
-            catch (Exception e)
-            {
-                System.Diagnostics.Debug.WriteLine(e.Message);
-            }
+            
             return View(categoriesForMenuId);
         }
 
         // GET: MenuCategories/Details/5
         public async Task<IActionResult> Details(int? id)
         {
+            
             MenuCategory menuCategory = new MenuCategory();
             try
             {
@@ -77,7 +75,7 @@ namespace ResAktWebb.Controllers
             var menuResponse = await client.GetAsync(api + "menus/");
             string menuJsonResponse = await menuResponse.Content.ReadAsStringAsync();
             menus = JsonConvert.DeserializeObject<List<Menu>>(menuJsonResponse);
-            ViewData["MenuId"] = new SelectList(menus,"Name","meny");
+            ViewData["MenuId"] = new SelectList(menus, "Id", "Name");
             return View();
         }
 
@@ -105,9 +103,12 @@ namespace ResAktWebb.Controllers
         // GET: MenuCategories/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            Menu menu = new Menu();
+            List<Menu> menus = new List<Menu>();
+            var menuResponse = await client.GetAsync(api + "menus/");
+            string menuJsonResponse = await menuResponse.Content.ReadAsStringAsync();
+            menus = JsonConvert.DeserializeObject<List<Menu>>(menuJsonResponse);
+            ViewData["MenuId"] = new SelectList(menus, "Id", "Name");
             MenuCategory menuCategory = new MenuCategory();
-
             try
             {
                 var response = await client.GetAsync(api + "MenuCategories/" + id);

@@ -1,0 +1,19 @@
+﻿@model IEnumerable<ResAktWebb.Models.Menu>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>KOmplett Meny</h1>
+
+
+<div style="text-align:center">
+    @foreach (var i in Model)
+    {
+        <h1>
+            @Html.DisplayFor(modelItem => i.Name)
+        </h1>
+
+    }
+
+</div>

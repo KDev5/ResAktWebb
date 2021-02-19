@@ -17,30 +17,45 @@ namespace ResAktWebb.Controllers
     {
         private readonly ResAktWebbContext _context;
         static readonly HttpClient client = new HttpClient();
-        string api = "http://informatik12.ei.hv.se/grupp5/api/";
+        string menuApi = "menus";
+        string api = "http://informatik12.ei.hv.se/grupp5/api/Menus/";
 
         public MenusController(ResAktWebbContext context)
         {
             _context = context;
         }
-
-        // GET: Menus
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> FullMenu()
         {
-            List<Menu>menus = new List<Menu>();
+            List<Menu> menus = new List<Menu>();
+            var modell = _context.Menu.Include(m => m.MenuCategory);
+
+
             try
             {
-               
-                    var response = await client.GetAsync("http://193.10.202.82/grupp5/api/menus");
-                    string jsonresponse = await response.Content.ReadAsStringAsync();
-                    menus = JsonConvert.DeserializeObject<List<Menu>>(jsonresponse);
-                
+
+                var response = await client.GetAsync("http://193.10.202.82/grupp5/api/menus");
+                string jsonresponse = await response.Content.ReadAsStringAsync();
+                menus = JsonConvert.DeserializeObject<List<Menu>>(jsonresponse);
+
             }
             catch (Exception e)
             {
                 System.Diagnostics.Debug.WriteLine(e.Message);
             }
+            foreach (var a in menus)
+            {
+
+                System.Diagnostics.Debug.WriteLine(a.Name);
+                System.Diagnostics.Debug.WriteLine(a.MenuCategory);
+            }
             return View(menus);
+        }
+
+        // GET: Menus
+        public async Task<IActionResult> Index()
+        {
+            var res = await RestHelper.ApiGet<Menu>(menuApi);
+            return View(res);
         }
 
         // GET: Menus/Details/5
@@ -48,19 +63,10 @@ namespace ResAktWebb.Controllers
         {
 
             Menu menu = new Menu();
-            try
-            {
-                var response = await client.GetAsync(api +"menus/"+ id);
-                string jsonresponse = await response.Content.ReadAsStringAsync();
-                menu = JsonConvert.DeserializeObject<Menu>(jsonresponse);
-
-            }
-            catch (Exception e)
-            {
-                System.Diagnostics.Debug.WriteLine(e.Message);
-            }
+            var menuResponse = await client.GetAsync(api + id);
+            string menuJsonResponse = await menuResponse.Content.ReadAsStringAsync();
+            menu = JsonConvert.DeserializeObject<Menu>(menuJsonResponse);
             return View(menu);
-
         }
 
         // GET: Menus/Create
@@ -77,16 +83,10 @@ namespace ResAktWebb.Controllers
         public async Task<IActionResult> Create([Bind("Id,Name")] Menu menu)
         {
 
-            {
-                var temp = new Menu();
-                using (HttpClient c = new HttpClient())
-                {
-                    string x = JsonConvert.SerializeObject(menu);
-                    var r = await c.PostAsync(api + "menus/", new StringContent(x, Encoding.UTF8, "application/json"));
-                }
+            await RestHelper.ApiCreate<Menu>(menuApi, menu);
 
-                return View(temp);
-            }
+            return RedirectToAction("Index");
+
 
         }
         // GET: Menus/Edit/5
@@ -95,7 +95,7 @@ namespace ResAktWebb.Controllers
             Menu menu = new Menu();
             try
             {
-                var response = await client.GetAsync(api + "menus/" + id);
+                var response = await client.GetAsync(api + id);
                 string x = await response.Content.ReadAsStringAsync();
                 menu = JsonConvert.DeserializeObject<Menu>(x);
 
@@ -119,7 +119,7 @@ namespace ResAktWebb.Controllers
                 using (HttpClient c = new HttpClient())
                 {
                     string x = JsonConvert.SerializeObject(menu);
-                    var r = await c.PutAsync(api + "menus/" +  id, new StringContent(x, Encoding.UTF8, "application/json"));
+                    var r = await c.PutAsync(api +  id, new StringContent(x, Encoding.UTF8, "application/json"));
                 }
 
                 return View(temp);
@@ -133,7 +133,7 @@ namespace ResAktWebb.Controllers
             try
             {
 
-                var response = await client.GetAsync(api + "menus/" + id);
+                var response = await client.GetAsync(api  + id);
                 string x = await response.Content.ReadAsStringAsync();
                 menu = JsonConvert.DeserializeObject<Menu>(x);
 
@@ -152,7 +152,7 @@ namespace ResAktWebb.Controllers
         {
             using (HttpClient c = new HttpClient())
             {
-                var r = await c.DeleteAsync(api + "menus/" + id);
+                var r = await c.DeleteAsync(api + id);
             }
             return RedirectToAction(nameof(Index));
         }

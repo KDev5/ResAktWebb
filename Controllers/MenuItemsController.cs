@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using ResAktWebb.Data;
 using ResAktWebb.Models;
 
@@ -13,6 +15,8 @@ namespace ResAktWebb.Controllers
     public class MenuItemsController : Controller
     {
         private readonly ResAktWebbContext _context;
+        static readonly HttpClient client = new HttpClient();
+        string api = "http://informatik12.ei.hv.se/grupp5/api/";
 
         public MenuItemsController(ResAktWebbContext context)
         {
@@ -20,10 +24,37 @@ namespace ResAktWebb.Controllers
         }
 
         // GET: MenuItems
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int? id)
         {
-            var resAktWebbContext = _context.MenuItems.Include(m => m.MenuCategory);
-            return View(await resAktWebbContext.ToListAsync());
+            List<MenuItems> menuItems = new List<MenuItems>();
+
+            List<MenuItems> itemsForCategoryId = new List<MenuItems>();
+
+            MenuCategory menuCategory = new MenuCategory();
+            var menuResponse = await client.GetAsync(api + "menuCategories/" + id);
+            string menuJsonResponse = await menuResponse.Content.ReadAsStringAsync();
+            menuCategory = JsonConvert.DeserializeObject<MenuCategory>(menuJsonResponse);
+            ViewData["MenuCategory"] = menuCategory.Name;
+            try
+            {
+
+                var itemResponse = await client.GetAsync(api + "menuItems");
+                string Jsonresponse = await itemResponse.Content.ReadAsStringAsync();
+                menuItems = JsonConvert.DeserializeObject<List<MenuItems>>(Jsonresponse);
+                foreach (var item in menuItems)
+                {
+                    if (item.MenuCategoryId == id)
+                    {
+                        itemsForCategoryId.Add(item);
+                    }
+                    System.Diagnostics.Debug.WriteLine(item.Name + ", " + item.MenuCategoryId);
+                }
+            }
+            catch (Exception e)
+            {
+                System.Diagnostics.Debug.WriteLine(e.Message);
+            }
+            return View(itemsForCategoryId);
         }
 
         // GET: MenuItems/Details/5
