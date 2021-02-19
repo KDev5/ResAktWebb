@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using ResAktWebb.Data;
 using ResAktWebb.Models;
 
+
 namespace ResAktWebb.Controllers
 {
     public class ActivityBookingsController : Controller
@@ -24,8 +25,8 @@ namespace ResAktWebb.Controllers
         // GET: ActivityBookings
         public async Task<IActionResult> Index()
         {
-            var resAktWebbContext = _context.ActivityBooking.Include(a => a.Activity);
-            return View(await resAktWebbContext.ToListAsync());
+            var apiResponse = await RestHelper.ApiGet<ActivityBooking>("ActivityBookings");
+            return View(apiResponse);
         }
 
         // GET: ActivityBookings/Details/5

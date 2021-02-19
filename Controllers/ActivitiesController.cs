@@ -10,6 +10,7 @@ using Newtonsoft.Json;
 using ResAktWebb.Data;
 using ResAktWebb.Models;
 
+
 namespace ResAktWebb.Controllers
 {
     public class ActivitiesController : Controller
@@ -22,48 +23,18 @@ namespace ResAktWebb.Controllers
         }
 
         // Connectionstring till api
-        string api = "http://informatik12.ei.hv.se/grupp5/api/Activities/";
-
+        string api = "http://informatik12.ei.hv.se/grupp5/api/Activities/"; // REDUNDANT MED RESTHELPER
+        string apiNew = "Activities/";
         public async Task<IActionResult> Index()
         {
-            List<Activity> a = new List<Activity>();
-            HttpClient client = new HttpClient();
-
-            var r = await client.GetAsync(api);
-            string jsonR = await r.Content.ReadAsStringAsync();
-			try
-			{
-                a = JsonConvert.DeserializeObject < List<Activity> >(jsonR) ;
-			}
-			catch (Exception)
-			{
-
-				throw;
-			}
-
+            var a = await RestHelper.ApiGet<Activity>(apiNew);
             return View(a);
-          //  return View(await _context.Activity.ToListAsync());
         }
 
         // GET: Activities/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            var a = new Activity();
-			using (HttpClient c = new HttpClient ())
-			{
-                var r = await c.GetAsync(api + id);
-                string jR = await r.Content.ReadAsStringAsync();
-				try
-				{
-                    a = JsonConvert.DeserializeObject<Activity>(jR);
-				}
-				catch (Exception)
-				{
-
-					throw;
-				}
-			}
-
+            var a = await RestHelper.ApiGet<Activity>(apiNew, id);
             return View(a);
         }
 
@@ -79,14 +50,8 @@ namespace ResAktWebb.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Description,Location,Price,StartTime,EndTime")] Activity activity)
         {
-
-			using (HttpClient c = new HttpClient())
-			{
-                var r = await c.PostAsJsonAsync(api, activity);
-			}
-
+            await RestHelper.ApiCreate<Activity>(apiNew, activity);
             return RedirectToAction("Index");
-  
         }
 
         // GET: Activities/Edit/5
