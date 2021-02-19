@@ -24,5 +24,7 @@ namespace ResAktWebb.Data
         public DbSet<ResAktWebb.Models.MenuCategory> MenuCategory { get; set; }
 
         public DbSet<ResAktWebb.Models.MenuItems> MenuItems { get; set; }
+
+        public DbSet<ResAktWebb.Models.ActivityBooking> ActivityBooking { get; set; }
     }
 }

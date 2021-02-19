@@ -114,33 +114,14 @@ namespace ResAktWebb.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,StartTime,EndTime,CustomerName,NumParticipants,TableNum")] Reservation reservation)
         {
-            if (id != reservation.Id)
+            using (HttpClient c = new HttpClient())
             {
-                return NotFound();
+                var response = await c.PutAsJsonAsync("http://193.10.202.82/grupp5/api/reservations/" + id, reservation);
             }
 
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(reservation);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!ReservationExists(reservation.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            return View(reservation);
+            return RedirectToAction(nameof(Index));
         }
+
 
         // GET: Reservations/Delete/5
         public async Task<IActionResult> Delete(int? id)
@@ -169,9 +150,10 @@ namespace ResAktWebb.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var reservation = await _context.Reservation.FindAsync(id);
-            _context.Reservation.Remove(reservation);
-            await _context.SaveChangesAsync();
+            using (HttpClient c = new HttpClient())
+            {
+                var r = await c.DeleteAsync("http://193.10.202.82/grupp5/api/reservations/" + id);
+            }
             return RedirectToAction(nameof(Index));
         }
 
