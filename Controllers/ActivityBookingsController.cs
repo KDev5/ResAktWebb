@@ -14,7 +14,7 @@ namespace ResAktWebb.Controllers
     public class ActivityBookingsController : Controller
     {
         private readonly ResAktWebbContext _context; // Dbcontext. Används inte för att hämta data.
-        private readonly string api = "http://informatik12.ei.hv.se/grupp5/api/Activities/"; // Connectionstring till api
+        private readonly string api = "ActivityBookings/"; // Connectionstring till api
 
 
         public ActivityBookingsController(ResAktWebbContext context)
@@ -25,73 +25,44 @@ namespace ResAktWebb.Controllers
         // GET: ActivityBookings
         public async Task<IActionResult> Index()
         {
-            var apiResponse = await RestHelper.ApiGet<ActivityBooking>("ActivityBookings");
-            return View(apiResponse);
+            return View(await RestHelper.ApiGet<ActivityBooking>(api));
         }
 
         // GET: ActivityBookings/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var activityBooking = await _context.ActivityBooking
-                .Include(a => a.Activity)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (activityBooking == null)
-            {
-                return NotFound();
-            }
-
-            return View(activityBooking);
+            return View(await RestHelper.ApiGet<ActivityBooking>(api, id));
         }
 
         // GET: ActivityBookings/Create
         public IActionResult Create()
         {
-            ViewData["ActivityId"] = new SelectList(_context.Activity, "Id", "Id");
+
+            // Får det inte att fungera. errormsg: Cant convert from system.collections.generic.list to IEnumerable
+          /*  // ViewData["ActivityId"] = new SelectList(_context.Activity, "Id", "Id");
+            var list =  (System.Collections.IEnumerable)RestHelper.ApiGet<Activity>("Activities/");
+            ViewData["ActivityId"] = new SelectList(list, "Id", "Id");*/
             return View();
         }
 
         // POST: ActivityBookings/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,CustomerName,NumParticipants,ActivityId")] ActivityBooking activityBooking)
         {
-            if (ModelState.IsValid)
-            {
-                _context.Add(activityBooking);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["ActivityId"] = new SelectList(_context.Activity, "Id", "Id", activityBooking.ActivityId);
-            return View(activityBooking);
+            await RestHelper.ApiCreate<ActivityBooking>(api, activityBooking);
+            return RedirectToAction("Index");
         }
 
         // GET: ActivityBookings/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var activityBooking = await _context.ActivityBooking.FindAsync(id);
-            if (activityBooking == null)
-            {
-                return NotFound();
-            }
+            var activityBooking = await RestHelper.ApiGet<ActivityBooking>(api, id);
             ViewData["ActivityId"] = new SelectList(_context.Activity, "Id", "Id", activityBooking.ActivityId);
             return View(activityBooking);
         }
 
         // POST: ActivityBookings/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,CustomerName,NumParticipants,ActivityId")] ActivityBooking activityBooking)
@@ -103,22 +74,7 @@ namespace ResAktWebb.Controllers
 
             if (ModelState.IsValid)
             {
-                try
-                {
-                    _context.Update(activityBooking);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!ActivityBookingExists(activityBooking.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
+                await RestHelper.ApiEdit(api, id);
                 return RedirectToAction(nameof(Index));
             }
             ViewData["ActivityId"] = new SelectList(_context.Activity, "Id", "Id", activityBooking.ActivityId);
@@ -128,20 +84,7 @@ namespace ResAktWebb.Controllers
         // GET: ActivityBookings/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var activityBooking = await _context.ActivityBooking
-                .Include(a => a.Activity)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (activityBooking == null)
-            {
-                return NotFound();
-            }
-
-            return View(activityBooking);
+            return View(await RestHelper.ApiGet<ActivityBooking>(api, id));
         }
 
         // POST: ActivityBookings/Delete/5
@@ -149,15 +92,13 @@ namespace ResAktWebb.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var activityBooking = await _context.ActivityBooking.FindAsync(id);
-            _context.ActivityBooking.Remove(activityBooking);
-            await _context.SaveChangesAsync();
+            await RestHelper.ApiDelete<ActivityBooking>(api, id);
             return RedirectToAction(nameof(Index));
         }
 
-        private bool ActivityBookingExists(int id)
+        /*private bool ActivityBookingExists(int id)
         {
             return _context.ActivityBooking.Any(e => e.Id == id);
-        }
+        }*/
     }
 }
