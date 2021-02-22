@@ -23,19 +23,17 @@ namespace ResAktWebb.Controllers
         }
 
         // Connectionstring till api
-        string api = "http://informatik12.ei.hv.se/grupp5/api/Activities/"; // REDUNDANT MED RESTHELPER
-        string apiNew = "Activities/";
+        string api = "Activities/";
         public async Task<IActionResult> Index()
         {
-            var a = await RestHelper.ApiGet<Activity>(apiNew);
+            var a = await RestHelper.ApiGet<Activity>(api);
             return View(a);
         }
 
         // GET: Activities/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            var a = await RestHelper.ApiGet<Activity>(apiNew, id);
-            return View(a);
+            return View(await RestHelper.ApiGet<Activity>(api, id));
         }
 
         // GET: Activities/Create
@@ -50,23 +48,14 @@ namespace ResAktWebb.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Description,Location,Price,StartTime,EndTime")] Activity activity)
         {
-            await RestHelper.ApiCreate<Activity>(apiNew, activity);
+            await RestHelper.ApiCreate<Activity>(api, activity);
             return RedirectToAction("Index");
         }
 
         // GET: Activities/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            var a = new Activity();
-            // Hämta activity
-			using (HttpClient c = new HttpClient())
-			{
-                var r = await c.GetAsync(api + id);
-                var jR = await r.Content.ReadAsStringAsync();
-
-                a = JsonConvert.DeserializeObject<Activity>(jR);
-			}
-            return View(a);
+            return View(await RestHelper.ApiGet<Activity>(api, id));
         }
 
         // POST: Activities/Edit/5
@@ -74,27 +63,15 @@ namespace ResAktWebb.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Description,Location,Price,StartTime,EndTime")] Activity activity)
         {
-				using (HttpClient c = new HttpClient())
-				{
-                    var response = await c.PutAsJsonAsync(api + id, activity);
-				}
-                
-                return RedirectToAction("Details","Activities");
+            await RestHelper.ApiEdit<Activity>(api + id, activity);
+        
+            return RedirectToAction("Index","Activities");
         }
 
         // GET: Activities/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            var a = new Activity();
-            using (HttpClient c = new HttpClient())
-            {
-                var r = await c.GetAsync(api + id);
-                var jR = await r.Content.ReadAsStringAsync();
-
-                a = JsonConvert.DeserializeObject<Activity>(jR);
-            }
-
-            return View(a);
+            return View(await RestHelper.ApiGet<Activity>(api, id));
         }
 
         // POST: Activities/Delete/5
@@ -102,10 +79,7 @@ namespace ResAktWebb.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-			using (HttpClient c = new HttpClient())
-			{
-                var r = await c.DeleteAsync(api + id);
-			}
+            await RestHelper.ApiDelete<Activity>(api, id);
             return RedirectToAction(nameof(Index));
         }
 
