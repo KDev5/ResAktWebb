@@ -103,6 +103,7 @@ namespace ResAktWebb.Controllers
         // GET: MenuCategories/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
+            ViewData["id"] = id;
             List<Menu> menus = new List<Menu>();
             var menuResponse = await client.GetAsync(api + "menus/");
             string menuJsonResponse = await menuResponse.Content.ReadAsStringAsync();
