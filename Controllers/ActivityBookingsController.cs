@@ -7,10 +7,12 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ResAktWebb.Data;
 using ResAktWebb.Models;
+using Microsoft.AspNetCore.Authorization;
 
 
 namespace ResAktWebb.Controllers
 {
+    [Authorize]
     public class ActivityBookingsController : Controller
     {
         private readonly ResAktWebbContext _context; // Dbcontext. Används inte för att hämta data.
