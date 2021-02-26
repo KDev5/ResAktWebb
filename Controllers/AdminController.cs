@@ -60,7 +60,6 @@ namespace ResAktWebb.Controllers
         private async Task AuthenticateUser(Admin validatedLogin)
         {
             //Lokal authentification
-            //Här misstänker jag att det är nått fel då inloggningen lyckas och isAuthenticated är satt som "true" men inget händer efter detta
 
             var identity = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationScheme);
             identity.AddClaim(new Claim(ClaimTypes.Name, validatedLogin.Username));
