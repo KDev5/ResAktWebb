@@ -53,8 +53,8 @@ namespace ResAktWebb.Controllers
             else
             {
                 //Annars skriver den ut detta
-                ModelState.AddModelError("", "Inloggningen är inte godkänd");
-                return RedirectToAction();
+                ModelState.AddModelError("", "Inloggning ej godkänd");
+                return View();
             }
         }
         private async Task AuthenticateUser(Admin validatedLogin)
