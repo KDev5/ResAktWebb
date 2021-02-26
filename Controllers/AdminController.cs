@@ -26,32 +26,42 @@ namespace ResAktWebb.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Index(Admin admin)
         {
-            Admin verifiedUser = null;
+            //verifiedUser ska användas för att lagra loginAPI response som skickar en bool, och en string[]
+            AdminResponse verifiedUser = null;
             using (HttpClient client = new HttpClient())
             {
-
+                
                 var content = new StringContent(JsonConvert.SerializeObject(admin), Encoding.UTF8, "application/json");
 
+                //Skickar iväg serialized inmatat username och password till grupp 3 loginAPI
                 using (var response = await client.PostAsync("http://informatik10.ei.hv.se/UserService/Login", content))
                 {
                     string jR = await response.Content.ReadAsStringAsync();
-                    verifiedUser = JsonConvert.DeserializeObject<Admin>(jR);
+                    //Tar emot och lägger converterade json svaret i en AdminResponse object
+                    verifiedUser = JsonConvert.DeserializeObject<AdminResponse>(jR);
                 }
             }
 
-            if (verifiedUser != null)
+            //Om status är true ska den authenticate user
+            if (verifiedUser.Status != false)
             {
-                await AuthenticateUser(verifiedUser);
-                return View();
+                await AuthenticateUser(admin);
+                /*Temp fix: Den redirectar till reservations när man loggar in för jag får 
+                 * inte den att redirecta vart man klickade innan inloggningssidan */
+                return Redirect("~/Reservations/Index/");
             }
             else
             {
+                //Annars skriver den ut detta
                 ModelState.AddModelError("", "Inloggningen är inte godkänd");
-                return View();
+                return RedirectToAction();
             }
         }
         private async Task AuthenticateUser(Admin validatedLogin)
         {
+            //Lokal authentification
+            //Här misstänker jag att det är nått fel då inloggningen lyckas och isAuthenticated är satt som "true" men inget händer efter detta
+
             var identity = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationScheme);
             identity.AddClaim(new Claim(ClaimTypes.Name, validatedLogin.Username));
 
