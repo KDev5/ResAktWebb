@@ -36,6 +36,7 @@ namespace ResAktWebb.Models
 
 			return returnList;
 		}
+	
 		// API / GET / ID - Överladdad get-metod för att hämta enskilt objekt.
 		public static async Task<T> ApiGet<T>(string apiPath, int? id)
 		{

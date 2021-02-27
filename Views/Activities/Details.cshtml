@@ -46,3 +46,19 @@
     <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
     <a asp-action="Index">Back to List</a>
 </div>
+
+<div>
+    <h1>PARTICIPANTS</h1>
+    <hr />
+    <br />
+
+    @foreach (var a in Model.ActivityBookings)
+    {
+        @Html.DisplayFor(x => a.Id) <br />
+        @Html.DisplayFor(x => a.CustomerName) <br />
+        @Html.DisplayFor(x => a.NumParticipants)<br />
+        <hr />
+    }
+
+
+</div>
