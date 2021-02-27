@@ -18,7 +18,8 @@ namespace ResAktWebb.Controllers
         private readonly ResAktWebbContext _context;
         static readonly HttpClient client = new HttpClient();
         string api = "http://informatik12.ei.hv.se/grupp5/api/";
-        string menuCatApi = "menuCategories";
+        string menuCatApi = "menuCategories/";
+        string menuApi = "menus/";
         public MenuCategoriesController(ResAktWebbContext context)
         {
             _context = context;
@@ -27,150 +28,77 @@ namespace ResAktWebb.Controllers
         // GET: MenuCategories
         public async Task<IActionResult> Index(int? id)
         {
-
             var menuCategories = await RestHelper.ApiGet<MenuCategory>(menuCatApi);
-            //var menu = await RestHelper.ApiGet<MenuCategory>("menus", id);
-
+            var menu = await RestHelper.ApiGet<Menu>(menuApi, id);
             List<MenuCategory> categoriesForMenuId = new List<MenuCategory>();
-            Menu menu = new Menu();
-            var menuResponse = await client.GetAsync(api + "menus/" + id);
-            string menuJsonResponse = await menuResponse.Content.ReadAsStringAsync();
-            menu = JsonConvert.DeserializeObject<Menu>(menuJsonResponse);
             ViewData["Menu"] = menu.Name;
-                foreach (var item in menuCategories)
+            ViewData["MenuId"] = menu.Id;
+            foreach (var item in menuCategories)
+            {
+                if (item.MenuId == id)
                 {
-                    if (item.MenuId == id)
-                    {
-                        categoriesForMenuId.Add(item);
-                    }
-                    System.Diagnostics.Debug.WriteLine(item.Name + ", " + item.MenuId);
+                    categoriesForMenuId.Add(item);
                 }
-            
+                System.Diagnostics.Debug.WriteLine(item.Name + ", " + item.MenuId);
+            }
+
             return View(categoriesForMenuId);
         }
 
-        // GET: MenuCategories/Details/5
+        // GET: MenuCategories/Details/Id
         public async Task<IActionResult> Details(int? id)
         {
-            
-            MenuCategory menuCategory = new MenuCategory();
-            try
-            {
-                var response = await client.GetAsync(api + "MenuCategories/" + id);
-                string jsonresponse = await response.Content.ReadAsStringAsync();
-                menuCategory = JsonConvert.DeserializeObject<MenuCategory>(jsonresponse);
-
-            }
-            catch (Exception e)
-            {
-                System.Diagnostics.Debug.WriteLine(e.Message);
-            }
-            return View(menuCategory);
+            return View(await RestHelper.ApiGet<MenuCategory>(menuCatApi, id));
         }
 
         // GET: MenuCategories/Create
         public async Task<IActionResult> Create()
         {
-            List<Menu> menus = new List<Menu>();
-            var menuResponse = await client.GetAsync(api + "menus/");
-            string menuJsonResponse = await menuResponse.Content.ReadAsStringAsync();
-            menus = JsonConvert.DeserializeObject<List<Menu>>(menuJsonResponse);
+            var menus = await RestHelper.ApiGet<Menu>(menuApi);
             ViewData["MenuId"] = new SelectList(menus, "Id", "Name");
             return View();
         }
 
         // POST: MenuCategories/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Name,MenuId")] MenuCategory menuCategory)
         {
-
-           
-
-            var temp = new MenuCategory();
-            using (HttpClient c = new HttpClient())
-            {
-                string x = JsonConvert.SerializeObject(menuCategory);
-                var r = await c.PostAsync(api + "MenuCategories/", new StringContent(x, Encoding.UTF8, "application/json"));
-            }
-
-            return View(temp);
+            await RestHelper.ApiCreate<MenuCategory>(menuCatApi, menuCategory);
+            return RedirectToAction("Index");
 
         }
 
-        // GET: MenuCategories/Edit/5
+        // GET: MenuCategories/Edit/Id
         public async Task<IActionResult> Edit(int? id)
         {
-            ViewData["id"] = id;
-            List<Menu> menus = new List<Menu>();
-            var menuResponse = await client.GetAsync(api + "menus/");
-            string menuJsonResponse = await menuResponse.Content.ReadAsStringAsync();
-            menus = JsonConvert.DeserializeObject<List<Menu>>(menuJsonResponse);
+            var menus = await RestHelper.ApiGet<Menu>(menuApi);
             ViewData["MenuId"] = new SelectList(menus, "Id", "Name");
-            MenuCategory menuCategory = new MenuCategory();
-            try
-            {
-                var response = await client.GetAsync(api + "MenuCategories/" + id);
-                string x = await response.Content.ReadAsStringAsync();
-                menuCategory = JsonConvert.DeserializeObject<MenuCategory>(x);
 
-            }
-            catch (Exception e)
-            {
-                System.Diagnostics.Debug.WriteLine(e.Message);
-            }
-            return View(menuCategory);
+            return View(await RestHelper.ApiGet<MenuCategory>(menuCatApi, id));
         }
 
-        // POST: MenuCategories/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // POST: MenuCategories/Edit/Id
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Name,MenuId")] MenuCategory menuCategory)
         {
-            {
-                var temp = new Menu();
-                using (HttpClient c = new HttpClient())
-                {
-                    string x = JsonConvert.SerializeObject(menuCategory);
-                    var r = await c.PutAsync(api + "MenuCategories/" + id, new StringContent(x, Encoding.UTF8, "application/json"));
-                }
-
-                return View(temp);
-            }
+            await RestHelper.ApiEdit<MenuCategory>(menuCatApi + id, menuCategory);
+            return RedirectToAction("Index", "MenuCategories",new {id= menuCategory.MenuId });
         }
 
-        // GET: MenuCategories/Delete/5
+        // GET: MenuCategories/Delete/Id
         public async Task<IActionResult> Delete(int? id)
         {
-            MenuCategory menuCategory = new MenuCategory();
-            try
-            {
-
-                var response = await client.GetAsync(api + "MenuCategories/" + id);
-                string x = await response.Content.ReadAsStringAsync();
-                menuCategory = JsonConvert.DeserializeObject<MenuCategory>(x);
-
-            }
-            catch (Exception e)
-            {
-                System.Diagnostics.Debug.WriteLine(e.Message);
-            }
-            return View(menuCategory);
+            return View(await RestHelper.ApiGet<MenuCategory>(menuCatApi, id));
         }
 
-        // POST: MenuCategories/Delete/5
+        // POST: MenuCategories/Delete/Id
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            using (HttpClient c = new HttpClient())
-            {
-                var r = await c.DeleteAsync(api + "MenuCategories/" + id);
-            }
+            await RestHelper.ApiDelete<MenuCategory>(menuCatApi, id);
             return RedirectToAction(nameof(Index));
         }
 
