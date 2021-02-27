@@ -10,6 +10,7 @@ using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using ResAktWebb.Data;
 using ResAktWebb.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ResAktWebb.Controllers
 {

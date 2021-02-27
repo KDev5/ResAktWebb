@@ -10,9 +10,11 @@ using ResAktWebb.Models;
 using System.Net.Http;
 using Newtonsoft.Json;
 using System.Text;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ResAktWebb.Controllers
 {
+    [Authorize]
     public class ReservationsController : Controller
     {
         private readonly ResAktWebbContext _context;
