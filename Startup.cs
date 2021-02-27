@@ -9,6 +9,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using ResAktWebb.Data;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace ResAktWebb
 {
@@ -28,6 +29,10 @@ namespace ResAktWebb
 
             services.AddDbContext<ResAktWebbContext>(options =>
                     options.UseSqlServer(Configuration.GetConnectionString("ResAktWebbContext")));
+
+            //Redirect till loginpage om man inte är inloggad
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                    .AddCookie(options => { options.LoginPath = "/Admin/Index/"; });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -45,6 +50,7 @@ namespace ResAktWebb
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
