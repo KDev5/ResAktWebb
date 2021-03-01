@@ -14,7 +14,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace ResAktWebb.Controllers
 {
-    [Authorize]
+    //[Authorize]
     public class ActivitiesController : Controller
     {
         private readonly ResAktWebbContext _context;
