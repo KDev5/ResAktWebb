@@ -11,6 +11,7 @@ using Newtonsoft.Json;
 using ResAktWebb.Data;
 using ResAktWebb.Models;
 using Microsoft.AspNetCore.Authorization;
+using System.Diagnostics;
 
 namespace ResAktWebb.Controllers
 {
@@ -20,23 +21,37 @@ namespace ResAktWebb.Controllers
         private readonly ResAktWebbContext _context;
         static readonly HttpClient client = new HttpClient();
         string menuApi = "menus/";
+        string menuCatApi = "menuCategories/";
+        string menuItemApi = "menuItems/";
         string api = "http://informatik12.ei.hv.se/grupp5/api/Menus/";
 
         public MenusController(ResAktWebbContext context)
         {
             _context = context;
         }
-        
+
         // GET: Menus
         public async Task<IActionResult> Index()
         {
-            return View(await RestHelper.ApiGet<Menu>(menuApi));
+            var menus = await RestHelper.ApiGet<Menu>(menuApi);
+            var menuCategories = await RestHelper.ApiGet<MenuCategory>(menuCatApi);
+            var menuItems = await RestHelper.ApiGet<MenuItems>(menuItemApi);
+
+            foreach (var item in menus)
+            {
+                item.MenuCategory = menuCategories;
+                foreach (var item2 in item.MenuCategory)
+                {
+                    item2.MenuItems = menuItems;
+                }
+            }
+            return View(menus);
         }
 
         // GET: Menus/Details/id
         public async Task<IActionResult> Details(int? id)
         {
-            return View (await RestHelper.ApiGet<Menu>(menuApi, id));
+            return View(await RestHelper.ApiGet<Menu>(menuApi, id));
         }
 
         // GET: Menus/Create

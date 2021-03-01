@@ -10,6 +10,6 @@ namespace ResAktWebb.Models
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public List<MenuCategory> MenuCategory { get; } = new List<MenuCategory>();
+        public List<MenuCategory> MenuCategory { get; set; } = new List<MenuCategory>();
     }
 }

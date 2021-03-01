@@ -12,5 +12,6 @@ namespace ResAktWebb.Models
         
         public int MenuId { get; set; }
         public Menu Menu { get; set; }
+        public List<MenuItems> MenuItems { get; set; } = new List<MenuItems>();
     }
 }
