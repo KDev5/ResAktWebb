@@ -68,6 +68,8 @@ namespace ResAktWebb.Controllers
             menus = JsonConvert.DeserializeObject<List<Menu>>(menuJsonResponse);
             ViewData["MenuId"] = new SelectList(menus, "Id", "Name");*/
         }
+
+        // används inte
         public async Task<IEnumerable<Activity>> help_plsAsync()
 		{
             var foo = await RestHelper.ApiGet<Activity>("Activities/");
