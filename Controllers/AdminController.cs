@@ -64,6 +64,15 @@ namespace ResAktWebb.Controllers
                 return View();
             }
         }
+
+        public async Task<IActionResult> SignOut()
+        {
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+
+            return RedirectToAction("Index", "Home");
+        }
+
+
         //private async Task AuthenticateUser(Admin validatedLogin)
         //{
         //    //Lokal authentification
