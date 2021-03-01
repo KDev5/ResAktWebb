@@ -1,0 +1,41 @@
+﻿@model List<ResAktWebb.Models.Activity>
+
+@{
+    ViewData["Title"] = "Activities";
+}
+
+<table class="table">
+
+    <tr>
+        <th>Description</th>
+        <th>Location</th>
+        <th>Price</th>
+        <th>Starttime</th>
+    </tr>
+
+    @foreach (var i in Model)
+    {
+
+
+        <tr>
+            <td>
+                @Html.DisplayFor(x => i.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(x => i.Location)
+            </td>
+            <td>
+                @Html.DisplayFor(x => i.Price)
+            </td>
+            <td>
+                @Html.DisplayFor(x => i.StartTime)
+            </td>
+            <td> @Html.ActionLink("Boka","BookActivity")</td>
+        </tr>
+
+    }
+</table>
+
+<script>
+    $(document).ready
+</script>
