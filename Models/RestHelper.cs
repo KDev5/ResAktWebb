@@ -12,7 +12,7 @@ namespace ResAktWebb.Models
 		// Skapar en statisk httpclient som kan användas genom hela projektet.
 		private static readonly HttpClient client = new HttpClient();
 		// Connectionstring till api.
-		private static readonly string api = "http://informatik12.ei.hv.se/grupp5/api/";
+		private static readonly string api = "http://informatik12.ei.hv.se/grupp5v2/api/";
 		
 		// API / GET
 		public static async Task<List<T>> ApiGet<T>(string apiPath)
