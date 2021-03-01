@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using ResAktWebb.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,5 +15,13 @@ namespace ResAktWebb.Controllers
 
 			return View();
 		}
+
+		public async Task<IActionResult> RestaurantInfo()
+		{
+			var info = await RestHelper.ApiGet<RestaurantInfo>("restaurantInfoes/");
+			
+			return View(info);
+		}
+
 	}
 }

@@ -106,8 +106,9 @@ namespace ResAktWebb.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
+            var m = await RestHelper.ApiGet<MenuItems>(menuItemApi, id);
             await RestHelper.ApiDelete<MenuItems>(menuItemApi, id);
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(Index), new { id = m.MenuCategoryId });
         }
 
         private bool MenuItemsExists(int id)
