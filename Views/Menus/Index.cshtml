@@ -9,28 +9,69 @@
 <p>
     <a asp-action="Create">Create New</a>
 </p>
-<table class="table">
+<table>
     <thead>
+
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.Name)
             </th>
             <th></th>
         </tr>
+
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                <a asp-controller="MenuCategories" asp-action="Index" asp-route-id="@item.Id">Katergorier</a>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    <a asp-controller="MenuCategories" asp-action="Index" asp-route-id="@item.Id">Katergorier</a>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
+            @foreach (var item2 in item.MenuCategory)
+            {
+                if (item2.MenuId == item.Id)
+                {
+                    <tr>
+                        <td>
+                            @item2.Name
+                        </td>
+                    </tr>
+
+                    @foreach (var item3 in item2.MenuItems)
+                    {
+                        @if (item3.MenuCategoryId == item2.Id)
+                        {
+                            <tr>
+                                <td>
+                                    @item3.Name
+                                </td>
+                                <td>
+                                    @item3.Description
+                                </td>
+                                <td>
+                                    @item3.Allergies
+                                </td>
+                                <td>
+                                    @item3.Price
+                                </td>
+                            </tr>
+                            
+                        }
+                    }
+
+                }
+            }
+                    
+
+
+        }
+
     </tbody>
 </table>
