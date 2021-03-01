@@ -45,7 +45,14 @@ namespace ResAktWebb.Controllers
             //Om status är true ska den authenticate user
             if (verifiedUser.Status != false)
             {
-                await AuthenticateUser(admin);
+                var identity = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationScheme);
+                identity.AddClaim(new Claim(ClaimTypes.Role, verifiedUser.Role[0]));
+                identity.AddClaim(new Claim(ClaimTypes.Name, admin.Username));
+
+
+                await HttpContext.SignInAsync(
+                    CookieAuthenticationDefaults.AuthenticationScheme,
+                    new ClaimsPrincipal(identity));
                 /*Temp fix: Den redirectar till reservations när man loggar in för jag får 
                  * inte den att redirecta vart man klickade innan inloggningssidan */
                 return Redirect("~/Reservations/Index/");
@@ -57,17 +64,26 @@ namespace ResAktWebb.Controllers
                 return View();
             }
         }
-        private async Task AuthenticateUser(Admin validatedLogin)
+
+        public async Task<IActionResult> SignOut()
         {
-            //Lokal authentification
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
 
-            var identity = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationScheme);
-            identity.AddClaim(new Claim(ClaimTypes.Name, validatedLogin.Username));
-
-            await HttpContext.SignInAsync(
-                CookieAuthenticationDefaults.AuthenticationScheme,
-                new ClaimsPrincipal(identity));
+            return RedirectToAction("Index", "Home");
         }
+
+
+        //private async Task AuthenticateUser(Admin validatedLogin)
+        //{
+        //    //Lokal authentification
+
+        //    var identity = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationScheme);
+        //    identity.AddClaim(new Claim(ClaimTypes.Name, validatedLogin.Username));
+
+        //    await HttpContext.SignInAsync(
+        //        CookieAuthenticationDefaults.AuthenticationScheme,
+        //        new ClaimsPrincipal(identity));
+        //}
 
 
         //[ValidateAntiForgeryToken]

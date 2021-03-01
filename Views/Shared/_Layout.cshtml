@@ -24,26 +24,41 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Activities" asp-action="Index">Activities</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="ActivityBookings" asp-action="Index">ActivityBookings</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Reservations" asp-action="Index">Resturangbokningar</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="RestaurantInfo" asp-action="Index">Resturanginformation</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Menus" asp-action="Index">Menyer</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="Index">Login</a>
-                        </li>
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Activities" asp-action="Index">Activities</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="ActivityBookings" asp-action="Index">ActivityBookings</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Reservations" asp-action="Index">Resturangbokningar</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="RestaurantInfo" asp-action="Index">Resturanginformation</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Menus" asp-action="Index">Menyer</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="SignOut">Logga ut</a>
+                            </li>
+                        }
+
+                        @if (!User.Identity.IsAuthenticated)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="Index">Login</a>
+                            </li>
+                        }
+
                     </ul>
                 </div>
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <a class="float-right flex-grow-2" style="color: white">Welcome @User.Identity.Name</a>
+                }
             </div>
         </nav>
     </header>
