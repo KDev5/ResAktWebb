@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using ResAktWebb.Data;
 using ResAktWebb.Models;
 using Microsoft.AspNetCore.Authorization;
@@ -12,7 +14,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace ResAktWebb.Controllers
 {
-    [Authorize]
+    //[Authorize]
     public class ActivityBookingsController : Controller
     {
         private readonly ResAktWebbContext _context; // Dbcontext. Används inte för att hämta data.
@@ -37,14 +39,50 @@ namespace ResAktWebb.Controllers
         }
 
         // GET: ActivityBookings/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
-
             // Får det inte att fungera. errormsg: Cant convert from system.collections.generic.list to IEnumerable
-          /*  // ViewData["ActivityId"] = new SelectList(_context.Activity, "Id", "Id");
-            var list =  (System.Collections.IEnumerable)RestHelper.ApiGet<Activity>("Activities/");
-            ViewData["ActivityId"] = new SelectList(list, "Id", "Id");*/
+            List<Activity> a = new List<Activity>();
+			using (HttpClient client = new HttpClient()) 
+			{
+
+            var aResponse = await client.GetAsync("http://informatik12.ei.hv.se/grupp5/api/Activities");
+            string aJsonResponse = await aResponse.Content.ReadAsStringAsync();
+            a = JsonConvert.DeserializeObject<List<Activity>>(aJsonResponse);
+            ViewData["ActivityId"] = new SelectList(a, "Id", "Description");
+			}
             return View();
+
+            // funkar inte
+            /*	ViewData["ActivityId"] = new SelectList(_context.Activity, "Id", "Id");
+                var list = (System.Collections.IEnumerable)RestHelper.ApiGet<Activity>("Activities/");
+                ViewData["ActivityId"] = new SelectList(list, "Id", "Id");*/
+
+            /* var list = help_plsAsync();
+             ViewData["ActivityId"] = new SelectList(list, "Id", "Id");*/
+            /*var client = new HttpClient();
+
+            List<Menu> menus = new List<Menu>();
+            var menuResponse = await client.GetAsync(api + "menus/");
+            string menuJsonResponse = await menuResponse.Content.ReadAsStringAsync();
+            menus = JsonConvert.DeserializeObject<List<Menu>>(menuJsonResponse);
+            ViewData["MenuId"] = new SelectList(menus, "Id", "Name");*/
+        }
+        public async Task<IEnumerable<Activity>> help_plsAsync()
+		{
+            var foo = await RestHelper.ApiGet<Activity>("Activities/");
+            var bar = new List<Activity>();
+            foo.ForEach(x => {
+                var temp = new Activity();
+                temp.Id = x.Id;
+                temp.Description = x.Description;
+                temp.Location = x.Location;
+                temp.Price = x.Price;
+                temp.StartTime = x.StartTime;
+                temp.EndTime = x.EndTime;
+                bar.Add(temp);
+            });
+            return bar.ToArray();
         }
 
         // POST: ActivityBookings/Create

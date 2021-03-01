@@ -1,10 +1,10 @@
 ﻿@model IEnumerable<ResAktWebb.Models.ActivityBooking>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "GetChildren";
 }
 
-<h1>Index</h1>
+<h1>GetChildren</h1>
 
 <p>
     <a asp-action="Create">Create New</a>
@@ -34,7 +34,7 @@
                 @Html.DisplayFor(modelItem => item.NumParticipants)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.ActivityId)
+                @Html.DisplayFor(modelItem => item.Activity.Id)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |

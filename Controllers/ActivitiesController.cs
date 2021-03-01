@@ -14,7 +14,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace ResAktWebb.Controllers
 {
-    [Authorize]
+   // [Authorize]
     public class ActivitiesController : Controller
     {
         private readonly ResAktWebbContext _context;
@@ -28,14 +28,28 @@ namespace ResAktWebb.Controllers
         string api = "Activities/";
         public async Task<IActionResult> Index()
         {
-            var a = await RestHelper.ApiGet<Activity>(api);
-            return View(a);
+             
+            return View(await RestHelper.ApiGet<Activity>(api));
         }
 
+       
         // GET: Activities/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            return View(await RestHelper.ApiGet<Activity>(api, id));
+            var activity = await RestHelper.ApiGet<Activity>(api, id);
+
+            var temp = await RestHelper.ApiGet<ActivityBooking>("ActivityBookings");
+            foreach (var item in temp)
+            {
+                
+                System.Diagnostics.Debug.WriteLine($"<-- MATCH for removal --> \nDebugging templist: \nBookingId\n{item.Id} \nActivityID\n{item.ActivityId} \n{item.CustomerName}\n");
+				if (item.ActivityId == id)
+				{
+                    item.Activity = activity;
+                    activity.ActivityBookings.Add(item);
+				}
+            }
+            return View(activity);
         }
 
         // GET: Activities/Create
@@ -88,6 +102,22 @@ namespace ResAktWebb.Controllers
         private bool ActivityExists(int id)
         {
             return _context.Activity.Any(e => e.Id == id);
+        }
+
+        public async Task<List<ActivityBooking>> GetChildren (int? id)
+        {
+            var a = await RestHelper.ApiGet<ActivityBooking>("ActivityBookings/");
+
+            var test = new List<ActivityBooking>();
+			foreach (var item in a)
+			{
+				if (item.ActivityId == id)
+				{
+                    test.Add(item);
+				}
+			}
+             
+            return test;
         }
     }
 }

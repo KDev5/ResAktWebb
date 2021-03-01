@@ -13,5 +13,10 @@ namespace ResAktWebb.Models
         public decimal Price { get; set; }
         public DateTime StartTime { get; set; }
         public DateTime EndTime { get; set; }
+
+        public virtual List<ActivityBooking> ActivityBookings { get; set; } = new List<ActivityBooking>();
+
+
+      //  public List<ActivityBooking> ActivityBookings{ get; set; } = new List<ActivityBooking>();
     }
 }
