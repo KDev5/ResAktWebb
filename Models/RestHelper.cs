@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +12,9 @@ namespace ResAktWebb.Models
 		// Skapar en statisk httpclient som kan användas genom hela projektet.
 		private static readonly HttpClient client = new HttpClient();
 		// Connectionstring till api.
+
+		private static readonly string api = "http://informatik12.ei.hv.se/grupp5v2/api/";
+
 		private static readonly string api = "http://informatik12.ei.hv.se/grupp5/api/";
 
 		

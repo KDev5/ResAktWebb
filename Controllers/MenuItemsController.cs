@@ -18,6 +18,9 @@ namespace ResAktWebb.Controllers
         private readonly ResAktWebbContext _context;
         static readonly HttpClient client = new HttpClient();
         string api = "http://informatik12.ei.hv.se/grupp5/api/";
+        string menuItemApi = "menuItems/";
+        string menuCatApi = "menuCategories/";
+        string menuApi = "menus/";
 
         public MenuItemsController(ResAktWebbContext context)
         {
@@ -27,21 +30,11 @@ namespace ResAktWebb.Controllers
         // GET: MenuItems
         public async Task<IActionResult> Index(int? id)
         {
-            List<MenuItems> menuItems = new List<MenuItems>();
+            var menuItems = await RestHelper.ApiGet<MenuItems>(menuItemApi);
+            var menuCategory = await RestHelper.ApiGet<MenuCategory>(menuCatApi, id);
 
             List<MenuItems> itemsForCategoryId = new List<MenuItems>();
-
-            MenuCategory menuCategory = new MenuCategory();
-            var menuResponse = await client.GetAsync(api + "menuCategories/" + id);
-            string menuJsonResponse = await menuResponse.Content.ReadAsStringAsync();
-            menuCategory = JsonConvert.DeserializeObject<MenuCategory>(menuJsonResponse);
             ViewData["MenuCategory"] = menuCategory.Name;
-            try
-            {
-
-                var itemResponse = await client.GetAsync(api + "menuItems");
-                string Jsonresponse = await itemResponse.Content.ReadAsStringAsync();
-                menuItems = JsonConvert.DeserializeObject<List<MenuItems>>(Jsonresponse);
                 foreach (var item in menuItems)
                 {
                     if (item.MenuCategoryId == id)
@@ -50,137 +43,62 @@ namespace ResAktWebb.Controllers
                     }
                     System.Diagnostics.Debug.WriteLine(item.Name + ", " + item.MenuCategoryId);
                 }
-            }
-            catch (Exception e)
-            {
-                System.Diagnostics.Debug.WriteLine(e.Message);
-            }
             return View(itemsForCategoryId);
         }
 
-        // GET: MenuItems/Details/5
+        // GET: MenuItems/Details/Id
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var menuItems = await _context.MenuItems
-                .Include(m => m.MenuCategory)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (menuItems == null)
-            {
-                return NotFound();
-            }
-
-            return View(menuItems);
+            return View(await RestHelper.ApiGet<MenuItems>(menuItemApi, id));
         }
 
         // GET: MenuItems/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
-            ViewData["MenuCategoryId"] = new SelectList(_context.MenuCategory, "Id", "Id");
+            var menuCategories = await RestHelper.ApiGet<MenuCategory>(menuApi);
+            ViewData["MenuId"] = new SelectList(menuCategories, "Id", "Name");
             return View();
         }
 
         // POST: MenuItems/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Name,Description,Allergies,Price,MenuCategoryId")] MenuItems menuItems)
         {
-            if (ModelState.IsValid)
-            {
-                _context.Add(menuItems);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["MenuCategoryId"] = new SelectList(_context.MenuCategory, "Id", "Id", menuItems.MenuCategoryId);
-            return View(menuItems);
+            await RestHelper.ApiCreate<MenuItems>(menuItemApi, menuItems);
+            return RedirectToAction("Index");
         }
 
-        // GET: MenuItems/Edit/5
+        // GET: MenuItems/Edit/Id
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            var menuCategories = await RestHelper.ApiGet<MenuCategory>(menuApi);
+            ViewData["MenuCatId"] = new SelectList(menuCategories, "Id", "Name");
 
-            var menuItems = await _context.MenuItems.FindAsync(id);
-            if (menuItems == null)
-            {
-                return NotFound();
-            }
-            ViewData["MenuCategoryId"] = new SelectList(_context.MenuCategory, "Id", "Id", menuItems.MenuCategoryId);
-            return View(menuItems);
+            return View(await RestHelper.ApiGet<MenuItems>(menuItemApi, id));
         }
 
-        // POST: MenuItems/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // POST: MenuItems/Edit/Id
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Description,Allergies,Price,MenuCategoryId")] MenuItems menuItems)
         {
-            if (id != menuItems.Id)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(menuItems);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!MenuItemsExists(menuItems.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["MenuCategoryId"] = new SelectList(_context.MenuCategory, "Id", "Id", menuItems.MenuCategoryId);
-            return View(menuItems);
+            await RestHelper.ApiEdit<MenuItems>(menuItemApi + id, menuItems);
+            return RedirectToAction("Index", "MenuItems", new { id = menuItems.MenuCategoryId });
         }
 
-        // GET: MenuItems/Delete/5
+        // GET: MenuItems/Delete/Id
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var menuItems = await _context.MenuItems
-                .Include(m => m.MenuCategory)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (menuItems == null)
-            {
-                return NotFound();
-            }
-
-            return View(menuItems);
+            return View(await RestHelper.ApiGet<MenuItems>(menuItemApi, id));
         }
 
-        // POST: MenuItems/Delete/5
+        // POST: MenuItems/Delete/Id
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var menuItems = await _context.MenuItems.FindAsync(id);
-            _context.MenuItems.Remove(menuItems);
-            await _context.SaveChangesAsync();
+            await RestHelper.ApiDelete<MenuItems>(menuItemApi, id);
             return RedirectToAction(nameof(Index));
         }
 
