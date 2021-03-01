@@ -15,7 +15,7 @@ namespace ResAktWebb.Models
 
 		private static readonly string api = "http://informatik12.ei.hv.se/grupp5v2/api/";
 
-		private static readonly string api = "http://informatik12.ei.hv.se/grupp5/api/";
+		//private static readonly string api = "http://informatik12.ei.hv.se/grupp5/api/"; DEPRECATED
 
 		
 		// API / GET
