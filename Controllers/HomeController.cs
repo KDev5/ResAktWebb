@@ -23,6 +23,11 @@ namespace ResAktWebb.Controllers
 
         public IActionResult Index()
         {
+            if (User.Identity.IsAuthenticated)
+            {
+                ViewBag.LoginMessage = "Välkommen " + User.Identity.Name;
+                //User.Identity.Name
+            }
             return View();
         }
 

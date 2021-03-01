@@ -45,7 +45,14 @@ namespace ResAktWebb.Controllers
             //Om status är true ska den authenticate user
             if (verifiedUser.Status != false)
             {
-                await AuthenticateUser(admin);
+                var identity = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationScheme);
+                identity.AddClaim(new Claim(ClaimTypes.Role, admin.Username));
+                identity.AddClaim(new Claim(ClaimTypes.Name, verifiedUser.Role[0]));
+
+
+                await HttpContext.SignInAsync(
+                    CookieAuthenticationDefaults.AuthenticationScheme,
+                    new ClaimsPrincipal(identity));
                 /*Temp fix: Den redirectar till reservations när man loggar in för jag får 
                  * inte den att redirecta vart man klickade innan inloggningssidan */
                 return Redirect("~/Reservations/Index/");
@@ -57,17 +64,17 @@ namespace ResAktWebb.Controllers
                 return View();
             }
         }
-        private async Task AuthenticateUser(Admin validatedLogin)
-        {
-            //Lokal authentification
+        //private async Task AuthenticateUser(Admin validatedLogin)
+        //{
+        //    //Lokal authentification
 
-            var identity = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationScheme);
-            identity.AddClaim(new Claim(ClaimTypes.Name, validatedLogin.Username));
+        //    var identity = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationScheme);
+        //    identity.AddClaim(new Claim(ClaimTypes.Name, validatedLogin.Username));
 
-            await HttpContext.SignInAsync(
-                CookieAuthenticationDefaults.AuthenticationScheme,
-                new ClaimsPrincipal(identity));
-        }
+        //    await HttpContext.SignInAsync(
+        //        CookieAuthenticationDefaults.AuthenticationScheme,
+        //        new ClaimsPrincipal(identity));
+        //}
 
 
         //[ValidateAntiForgeryToken]
