@@ -28,14 +28,22 @@ namespace ResAktWebb.Controllers
         string api = "Activities/";
         public async Task<IActionResult> Index()
         {
-            var a = await RestHelper.ApiGet<Activity>(api);
-            return View(a);
+             
+            return View(await RestHelper.ApiGet<Activity>(api));
         }
 
         // GET: Activities/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            return View(await RestHelper.ApiGet<Activity>(api, id));
+            var activity = await RestHelper.ApiGet<Activity>(api, id);
+           activity.ActivityBookings = await RestHelper.ApiGet<ActivityBooking>("Activitybookings/");
+           
+
+            
+
+            //activity.ActivityBookings = GetChildren(activity.Id);
+            
+            return View(activity);
         }
 
         // GET: Activities/Create
@@ -88,6 +96,22 @@ namespace ResAktWebb.Controllers
         private bool ActivityExists(int id)
         {
             return _context.Activity.Any(e => e.Id == id);
+        }
+
+        public async Task<List<ActivityBooking>> GetChildren (int? id)
+        {
+            var a = await RestHelper.ApiGet<ActivityBooking>("ActivityBookings/");
+
+            var test = new List<ActivityBooking>();
+			foreach (var item in a)
+			{
+				if (item.ActivityId == id)
+				{
+                    test.Add(item);
+				}
+			}
+             
+            return test;
         }
     }
 }

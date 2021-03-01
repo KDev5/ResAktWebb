@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +12,11 @@ namespace ResAktWebb.Models
 		// Skapar en statisk httpclient som kan användas genom hela projektet.
 		private static readonly HttpClient client = new HttpClient();
 		// Connectionstring till api.
+
 		private static readonly string api = "http://informatik12.ei.hv.se/grupp5v2/api/";
+
+		private static readonly string api = "http://informatik12.ei.hv.se/grupp5/api/";
+
 		
 		// API / GET
 		public static async Task<List<T>> ApiGet<T>(string apiPath)
@@ -35,6 +39,7 @@ namespace ResAktWebb.Models
 
 			return returnList;
 		}
+	
 		// API / GET / ID - Överladdad get-metod för att hämta enskilt objekt.
 		public static async Task<T> ApiGet<T>(string apiPath, int? id)
 		{
@@ -64,6 +69,14 @@ namespace ResAktWebb.Models
 		{
 			await client.DeleteAsync(api + apiPath + id);
 		}
+	/*	public static async Task<T> ApiGetChildren<T>(string apiPath, int? fk)
+		{
+
+			
+
+
+			return childObj;
+		}*/
 
 		
 
