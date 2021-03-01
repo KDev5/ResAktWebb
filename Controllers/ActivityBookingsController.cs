@@ -14,7 +14,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace ResAktWebb.Controllers
 {
-    [Authorize(Roles = "ActAdmin")]
+    
     public class ActivityBookingsController : Controller
     {
         private readonly ResAktWebbContext _context; // Dbcontext. Används inte för att hämta data.
@@ -27,12 +27,14 @@ namespace ResAktWebb.Controllers
         }
 
         // GET: ActivityBookings
+        [Authorize(Roles = "ActAdmin")]
         public async Task<IActionResult> Index()
         {
             return View(await RestHelper.ApiGet<ActivityBooking>(api));
         }
 
         // GET: ActivityBookings/Details/5
+        [Authorize(Roles = "ActAdmin")]
         public async Task<IActionResult> Details(int? id)
         {
             return View(await RestHelper.ApiGet<ActivityBooking>(api, id));
@@ -70,6 +72,7 @@ namespace ResAktWebb.Controllers
         }
 
         // används inte
+        [Authorize(Roles = "ActAdmin")]
         public async Task<IEnumerable<Activity>> help_plsAsync()
 		{
             var foo = await RestHelper.ApiGet<Activity>("Activities/");
@@ -97,6 +100,7 @@ namespace ResAktWebb.Controllers
         }
 
         // GET: ActivityBookings/Edit/5
+        [Authorize(Roles = "ActAdmin")]
         public async Task<IActionResult> Edit(int? id)
         {
             var activityBooking = await RestHelper.ApiGet<ActivityBooking>(api, id);
@@ -124,6 +128,7 @@ namespace ResAktWebb.Controllers
         }
 
         // GET: ActivityBookings/Delete/5
+        [Authorize(Roles = "ActAdmin")]
         public async Task<IActionResult> Delete(int? id)
         {
             return View(await RestHelper.ApiGet<ActivityBooking>(api, id));

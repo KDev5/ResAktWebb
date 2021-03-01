@@ -85,5 +85,53 @@ namespace ResAktWebb.Controllers
         {
             return _context.RestaurantInfo.Any(e => e.Id == id);
         }
+
+        public async Task<IActionResult> FullMenu()
+		{
+            System.Diagnostics.Debug.WriteLine("<-- Full Menu --> \n");
+
+            // Hämta allt
+            var menu = await RestHelper.ApiGet<Menu>("Menus");
+            var menuCats = await RestHelper.ApiGet<MenuCategory>("MenuCategories/");
+            var menuItems = await RestHelper.ApiGet<MenuItems>("MenuItems/");
+
+
+			foreach (var mC in menuCats )
+			{
+                foreach (var mI in menuItems)
+                {
+
+                    if (mI.MenuCategoryId == mC.Id)
+                    {
+                        mC.MenuItems.Add(mI);
+                        System.Diagnostics.Debug.WriteLine($"<-- ADDED: {mI.Name}\n MenuCategoryId: {mI.MenuCategoryId}");
+
+                    }
+                }
+			}
+
+
+            foreach (var m in menu)
+			{
+				foreach (var mC in menuCats)
+				{
+					if (mC.MenuId == m.Id)
+					{
+                        m.MenuCategory.Add(mC);
+					}
+					
+				}
+			}
+
+
+            
+
+
+
+
+
+            return View(menu);
+		}
     }
+
 }
