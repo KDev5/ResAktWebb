@@ -32,7 +32,7 @@ namespace ResAktWebb.Controllers
         {
             var menuItems = await RestHelper.ApiGet<MenuItems>(menuItemApi);
             var menuCategory = await RestHelper.ApiGet<MenuCategory>(menuCatApi, id);
-
+            ViewData["route"] = id;
             List<MenuItems> itemsForCategoryId = new List<MenuItems>();
             ViewData["MenuCategory"] = menuCategory.Name;
                 foreach (var item in menuItems)
@@ -53,9 +53,10 @@ namespace ResAktWebb.Controllers
         }
 
         // GET: MenuItems/Create
-        public async Task<IActionResult> Create()
+        public async Task<IActionResult> Create(int? id)
         {
             var menuCategories = await RestHelper.ApiGet<MenuCategory>(menuApi);
+            ViewData["route"]= id;
             ViewData["MenuId"] = new SelectList(menuCategories, "Id", "Name");
             return View();
         }
@@ -66,7 +67,7 @@ namespace ResAktWebb.Controllers
         public async Task<IActionResult> Create([Bind("Id,Name,Description,Allergies,Price,MenuCategoryId")] MenuItems menuItems)
         {
             await RestHelper.ApiCreate<MenuItems>(menuItemApi, menuItems);
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", menuItems.MenuCategoryId);
         }
 
         // GET: MenuItems/Edit/Id
