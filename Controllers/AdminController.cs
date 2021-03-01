@@ -55,7 +55,7 @@ namespace ResAktWebb.Controllers
                     new ClaimsPrincipal(identity));
                 /*Temp fix: Den redirectar till reservations när man loggar in för jag får 
                  * inte den att redirecta vart man klickade innan inloggningssidan */
-                return Redirect("~/Reservations/Index/");
+                return Redirect("~/Home/Index/");
             }
             else
             {
@@ -71,6 +71,8 @@ namespace ResAktWebb.Controllers
 
             return RedirectToAction("Index", "Home");
         }
+
+
 
 
         //private async Task AuthenticateUser(Admin validatedLogin)

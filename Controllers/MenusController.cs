@@ -15,7 +15,7 @@ using System.Diagnostics;
 
 namespace ResAktWebb.Controllers
 {
-    [Authorize]
+    //[Authorize]
     public class MenusController : Controller
     {
         private readonly ResAktWebbContext _context;

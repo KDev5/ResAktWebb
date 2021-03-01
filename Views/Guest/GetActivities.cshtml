@@ -1,0 +1,63 @@
+﻿@model List<ResAktWebb.Models.Activity>
+
+@{
+    ViewData["Title"] = "Activities";
+}
+
+<table class="table">
+
+    <tr>
+        <th>Description</th>
+        <th>Location</th>
+        <th>Price</th>
+        <th>Starttime</th>
+    </tr>
+
+    @foreach (var i in Model)
+    {
+
+
+        <tr>
+            <td>
+                @Html.DisplayFor(x => i.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(x => i.Location)
+            </td>
+            <td>
+                @Html.DisplayFor(x => i.Price)
+            </td>
+            <td>
+                @Html.DisplayFor(x => i.StartTime)
+            </td>
+            <td> @Html.ActionLink("Boka", "Create","ActivityBookings")</td>
+        </tr>
+
+    }
+</table>
+<script>
+    $(function () {
+        @*$("#popup-switch").click(() => {
+            console.log("clicked");
+            $("#test").toggleClass(".show");
+        });*@
+
+        $("#myBtn").click(function () {
+            $("#test").toggleClass("show");
+        });
+    });
+
+    const popWindow = document.getElementById('test');
+    popWindow.classList.toggle('active');
+    popWindow.addEventListener('blur', () => {
+        popWindow.classList.toggle('active');
+    });
+</script>
+
+<button id="myBtn">click</button>
+
+<div id="test">hej, ta bort mig</div>
+
+<div class="my-popup-container">
+    <span class="my-popup-text" id="my-popup">hello wórld, switch me pls</span>
+</div>
