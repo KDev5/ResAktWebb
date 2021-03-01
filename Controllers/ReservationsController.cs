@@ -14,7 +14,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace ResAktWebb.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "ActAdmin")]
     public class ReservationsController : Controller
     {
         private readonly ResAktWebbContext _context;
