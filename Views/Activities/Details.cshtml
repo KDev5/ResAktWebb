@@ -54,8 +54,11 @@
 
     @foreach (var a in Model.ActivityBookings)
     {
+        <h3>@Html.DisplayNameFor(x => a.Id)</h3> <br />
         @Html.DisplayFor(x => a.Id) <br />
+       <h3> @Html.DisplayNameFor(x => a.CustomerName)</h3> <br />
         @Html.DisplayFor(x => a.CustomerName) <br />
+        <h3>@Html.DisplayNameFor(x => a.NumParticipants)</h3> <br />
         @Html.DisplayFor(x => a.NumParticipants)<br />
         <hr />
     }

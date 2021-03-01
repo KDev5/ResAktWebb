@@ -14,7 +14,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace ResAktWebb.Controllers
 {
-    //[Authorize]
+    [Authorize]
     public class ActivityBookingsController : Controller
     {
         private readonly ResAktWebbContext _context; // Dbcontext. Används inte för att hämta data.
