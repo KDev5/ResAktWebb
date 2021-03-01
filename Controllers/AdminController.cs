@@ -46,8 +46,8 @@ namespace ResAktWebb.Controllers
             if (verifiedUser.Status != false)
             {
                 var identity = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationScheme);
-                identity.AddClaim(new Claim(ClaimTypes.Role, admin.Username));
-                identity.AddClaim(new Claim(ClaimTypes.Name, verifiedUser.Role[0]));
+                identity.AddClaim(new Claim(ClaimTypes.Role, verifiedUser.Role[0]));
+                identity.AddClaim(new Claim(ClaimTypes.Name, admin.Username));
 
 
                 await HttpContext.SignInAsync(
