@@ -10,6 +10,7 @@ using Newtonsoft.Json;
 using ResAktWebb.Data;
 using ResAktWebb.Models;
 using Microsoft.AspNetCore.Authorization;
+using System.Text;
 
 namespace ResAktWebb.Controllers
 {
@@ -55,9 +56,10 @@ namespace ResAktWebb.Controllers
         // GET: MenuItems/Create
         public async Task<IActionResult> Create(int? id)
         {
-            var menuCategories = await RestHelper.ApiGet<MenuCategory>(menuApi);
             ViewData["route"]= id;
-            ViewData["MenuId"] = new SelectList(menuCategories, "Id", "Name");
+
+            var menuCategories = await RestHelper.ApiGet<MenuCategory>(menuCatApi);
+            ViewData["MenuCatId"] = new SelectList(menuCategories, "Id", "Name");
             return View();
         }
 
@@ -66,8 +68,13 @@ namespace ResAktWebb.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Name,Description,Allergies,Price,MenuCategoryId")] MenuItems menuItems)
         {
-            await RestHelper.ApiCreate<MenuItems>(menuItemApi, menuItems);
-            return RedirectToAction("Index", menuItems.MenuCategoryId);
+            using (HttpClient c = new HttpClient())
+            {
+                string dataAsJson = JsonConvert.SerializeObject(menuItems);
+                var r = await c.PostAsync("http://localhost:64014/api/MenuItems/", new StringContent(dataAsJson, Encoding.UTF8, "application/json"));
+            }
+            //await RestHelper.ApiCreate<MenuItems>(menuItemApi, menuItems);
+            return RedirectToAction("Index", new { id = menuItems.MenuCategoryId });
         }
 
         // GET: MenuItems/Edit/Id
