@@ -18,7 +18,6 @@ namespace ResAktWebb.Controllers
     {
         private readonly ResAktWebbContext _context;
         static readonly HttpClient client = new HttpClient();
-        string api = "http://informatik12.ei.hv.se/grupp5/api/";
         string menuCatApi = "menuCategories/";
         string menuApi = "menus/";
         public MenuCategoriesController(ResAktWebbContext context)
@@ -33,6 +32,7 @@ namespace ResAktWebb.Controllers
             var menu = await RestHelper.ApiGet<Menu>(menuApi, id);
             List<MenuCategory> categoriesForMenuId = new List<MenuCategory>();
             ViewData["Menu"] = menu.Name;
+            ViewData["route"] = id;
             ViewData["MenuId"] = menu.Id;
             foreach (var item in menuCategories)
             {
@@ -40,8 +40,11 @@ namespace ResAktWebb.Controllers
                 {
                     categoriesForMenuId.Add(item);
                 }
-                System.Diagnostics.Debug.WriteLine(item.Name + ", " + item.MenuId);
             }
+            foreach (var item in categoriesForMenuId)
+            {
+                System.Diagnostics.Debug.WriteLine(item.MenuId);
+                        }
 
             return View(categoriesForMenuId);
         }
@@ -53,10 +56,12 @@ namespace ResAktWebb.Controllers
         }
 
         // GET: MenuCategories/Create
-        public async Task<IActionResult> Create()
+        public async Task<IActionResult> Create(int? id)
         {
+            ViewData["route"] = id;
             var menus = await RestHelper.ApiGet<Menu>(menuApi);
             ViewData["MenuId"] = new SelectList(menus, "Id", "Name");
+
             return View();
         }
 
@@ -65,8 +70,15 @@ namespace ResAktWebb.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Name,MenuId")] MenuCategory menuCategory)
         {
-            await RestHelper.ApiCreate<MenuCategory>(menuCatApi, menuCategory);
-            return RedirectToAction("Index");
+            using (HttpClient c = new HttpClient())
+            {
+                string dataAsJson = JsonConvert.SerializeObject(menuCategory);
+                var r = await c.PostAsync("http://localhost:64014/api/MenuCategories", new StringContent(dataAsJson, Encoding.UTF8, "application/json"));
+            }
+
+
+            //await RestHelper.ApiCreate<MenuCategory>(menuCatApi, menuCategory);
+            return RedirectToAction("Index", new { id = menuCategory.MenuId });
 
         }
 
@@ -85,7 +97,7 @@ namespace ResAktWebb.Controllers
         public async Task<IActionResult> Edit(int id, [Bind("Id,Name,MenuId")] MenuCategory menuCategory)
         {
             await RestHelper.ApiEdit<MenuCategory>(menuCatApi + id, menuCategory);
-            return RedirectToAction("Index", "MenuCategories",new {id= menuCategory.MenuId });
+            return RedirectToAction("Index", "MenuCategories", new { id = menuCategory.MenuId });
         }
 
         // GET: MenuCategories/Delete/Id
