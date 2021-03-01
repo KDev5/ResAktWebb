@@ -18,7 +18,6 @@ namespace ResAktWebb.Controllers
     {
         private readonly ResAktWebbContext _context;
         static readonly HttpClient client = new HttpClient();
-        string api = "http://informatik12.ei.hv.se/grupp5/api/";
         string menuCatApi = "menuCategories/";
         string menuApi = "menus/";
         public MenuCategoriesController(ResAktWebbContext context)
