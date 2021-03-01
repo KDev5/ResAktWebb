@@ -19,5 +19,7 @@ namespace ResAktWebb.Models
         [ForeignKey("Activity")]
 		public int ActivityId { get; set; }
         public virtual Activity Activity { get; set; }
+
+        
 	}
 }

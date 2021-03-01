@@ -14,7 +14,7 @@ namespace ResAktWebb.Models
         public DateTime StartTime { get; set; }
         public DateTime EndTime { get; set; }
 
-        public virtual List<ActivityBooking> ActivityBookings {get; set;}
+        public virtual List<ActivityBooking> ActivityBookings { get; set; } = new List<ActivityBooking>();
 
 
       //  public List<ActivityBooking> ActivityBookings{ get; set; } = new List<ActivityBooking>();

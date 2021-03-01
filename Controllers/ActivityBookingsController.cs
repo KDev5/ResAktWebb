@@ -14,7 +14,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace ResAktWebb.Controllers
 {
-    [Authorize]
+    //[Authorize]
     public class ActivityBookingsController : Controller
     {
         private readonly ResAktWebbContext _context; // Dbcontext. Används inte för att hämta data.
@@ -42,22 +42,31 @@ namespace ResAktWebb.Controllers
         public async Task<IActionResult> Create()
         {
             // Får det inte att fungera. errormsg: Cant convert from system.collections.generic.list to IEnumerable
-            /*
-              
-             // ViewData["ActivityId"] = new SelectList(_context.Activity, "Id", "Id");
-              var list =  (System.Collections.IEnumerable)RestHelper.ApiGet<Activity>("Activities/");
-              ViewData["ActivityId"] = new SelectList(list, "Id", "Id");
-             */
+            List<Activity> a = new List<Activity>();
+			using (HttpClient client = new HttpClient()) 
+			{
+
+            var aResponse = await client.GetAsync("http://informatik12.ei.hv.se/grupp5/api/Activities");
+            string aJsonResponse = await aResponse.Content.ReadAsStringAsync();
+            a = JsonConvert.DeserializeObject<List<Activity>>(aJsonResponse);
+            ViewData["ActivityId"] = new SelectList(a, "Id", "Description");
+			}
+            return View();
+
+            // funkar inte
+            /*	ViewData["ActivityId"] = new SelectList(_context.Activity, "Id", "Id");
+                var list = (System.Collections.IEnumerable)RestHelper.ApiGet<Activity>("Activities/");
+                ViewData["ActivityId"] = new SelectList(list, "Id", "Id");*/
+
             /* var list = help_plsAsync();
              ViewData["ActivityId"] = new SelectList(list, "Id", "Id");*/
-            var client = new HttpClient();
+            /*var client = new HttpClient();
 
             List<Menu> menus = new List<Menu>();
             var menuResponse = await client.GetAsync(api + "menus/");
             string menuJsonResponse = await menuResponse.Content.ReadAsStringAsync();
             menus = JsonConvert.DeserializeObject<List<Menu>>(menuJsonResponse);
-            ViewData["MenuId"] = new SelectList(menus, "Id", "Name");
-            return View();
+            ViewData["MenuId"] = new SelectList(menus, "Id", "Name");*/
         }
         public async Task<IEnumerable<Activity>> help_plsAsync()
 		{

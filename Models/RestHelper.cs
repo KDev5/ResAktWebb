@@ -27,6 +27,7 @@ namespace ResAktWebb.Models
 				var jRes = await res.Content.ReadAsStringAsync();
 
 				returnList = JsonConvert.DeserializeObject<List<T>>(jRes);
+			
 			}
 			catch (Exception e)
 			{

@@ -14,7 +14,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace ResAktWebb.Controllers
 {
-    [Authorize]
+   // [Authorize]
     public class ActivitiesController : Controller
     {
         private readonly ResAktWebbContext _context;
@@ -32,17 +32,23 @@ namespace ResAktWebb.Controllers
             return View(await RestHelper.ApiGet<Activity>(api));
         }
 
+       
         // GET: Activities/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             var activity = await RestHelper.ApiGet<Activity>(api, id);
-           activity.ActivityBookings = await RestHelper.ApiGet<ActivityBooking>("Activitybookings/");
-           
 
-            
-
-            //activity.ActivityBookings = GetChildren(activity.Id);
-            
+            var temp = await RestHelper.ApiGet<ActivityBooking>("ActivityBookings");
+            foreach (var item in temp)
+            {
+                
+                System.Diagnostics.Debug.WriteLine($"<-- MATCH for removal --> \nDebugging templist: \nBookingId\n{item.Id} \nActivityID\n{item.ActivityId} \n{item.CustomerName}\n");
+				if (item.ActivityId == id)
+				{
+                    item.Activity = activity;
+                    activity.ActivityBookings.Add(item);
+				}
+            }
             return View(activity);
         }
 
