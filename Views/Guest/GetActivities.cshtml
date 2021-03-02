@@ -35,29 +35,3 @@
 
     }
 </table>
-<script>
-    $(function () {
-        @*$("#popup-switch").click(() => {
-            console.log("clicked");
-            $("#test").toggleClass(".show");
-        });*@
-
-        $("#myBtn").click(function () {
-            $("#test").toggleClass("show");
-        });
-    });
-
-    const popWindow = document.getElementById('test');
-    popWindow.classList.toggle('active');
-    popWindow.addEventListener('blur', () => {
-        popWindow.classList.toggle('active');
-    });
-</script>
-
-<button id="myBtn">click</button>
-
-<div id="test">hej, ta bort mig</div>
-
-<div class="my-popup-container">
-    <span class="my-popup-text" id="my-popup">hello wórld, switch me pls</span>
-</div>

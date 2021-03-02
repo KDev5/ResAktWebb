@@ -9,12 +9,15 @@
 <p>
     <a asp-action="Create">Create New</a>
 </p>
-<table>
+<table class="table">
     <thead>
 
         <tr>
             <th>
+                <h1>
                 @Html.DisplayNameFor(model => model.Name)
+
+                </h1>
             </th>
             <th></th>
         </tr>
@@ -25,7 +28,10 @@
         {
             <tr>
                 <td>
+                    <h3>
                     @Html.DisplayFor(modelItem => item.Name)
+                    </h3>
+
                 </td>
                 <td>
                     <a asp-controller="MenuCategories" asp-action="Index" asp-route-id="@item.Id">Katergorier</a>
@@ -44,7 +50,10 @@
                 {
                     <tr>
                         <td>
+                            <h5>
                             @item2.Name
+
+                            </h5>
                         </td>
                     </tr>
 
