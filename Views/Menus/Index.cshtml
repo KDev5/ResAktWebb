@@ -7,7 +7,13 @@
 <h1>Index</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create">+ MENU</a>
+</p>
+<p>
+    <a asp-controller="MenuCategories" asp-action="Create">+ MENUCATEGORY</a>
+</p>
+<p>
+    <a asp-controller="MenuItems" asp-action="Create">+ ITEM</a>
 </p>
 
 
@@ -66,6 +72,7 @@
                                 </div>
                                 <div>
                                     @*<a asp-controller="MenuItems" asp-action="Index" asp-route-id="@item2.Id">Open</a>*@
+                                    
                                     <a asp-controller="MenuItems" asp-action="Edit" asp-route-id="@item3.Id">Edit</a> |
                                     <a asp-controller="MenuItems" asp-action="Details" asp-route-id="@item3.Id">Details</a> |
                                     <a asp-controller="MenuItems" asp-action="Delete" asp-route-id="@item3.Id">Delete</a>
