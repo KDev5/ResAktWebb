@@ -56,9 +56,9 @@ namespace ResAktWebb.Controllers
         }
 
         // GET: MenuCategories/Create
-        public async Task<IActionResult> Create(int? id)
+        public async Task<IActionResult> Create()
         {
-            ViewData["route"] = id;
+            //ViewData["route"] = id;
             var menus = await RestHelper.ApiGet<Menu>(menuApi);
             ViewData["MenuId"] = new SelectList(menus, "Id", "Name");
 
