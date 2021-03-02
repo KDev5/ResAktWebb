@@ -24,6 +24,13 @@ namespace ResAktWebb.Controllers
 			return View(a);
 		}
 
+		public async Task<IActionResult> GetReservations()
+		{
+			var a = await RestHelper.ApiGet<Reservation>("Reservations");
+
+			return View(a);
+		}
+
 		public async Task<IActionResult> RestaurantInfo()
 		{
 			var info = await RestHelper.ApiGet<RestaurantInfo>("restaurantInfoes/");

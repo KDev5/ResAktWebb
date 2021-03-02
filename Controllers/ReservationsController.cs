@@ -14,7 +14,6 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace ResAktWebb.Controllers
 {
-    [Authorize(Roles = "ActAdmin")]
     public class ReservationsController : Controller
     {
         private readonly ResAktWebbContext _context;
@@ -26,6 +25,8 @@ namespace ResAktWebb.Controllers
 
         // Connectionstring till api
         string api = "reservations/";
+
+        [Authorize(Roles = "ActAdmin")]
         public async Task<IActionResult> Index()
         {
             var a = await RestHelper.ApiGet<Reservation>(api);
@@ -33,6 +34,7 @@ namespace ResAktWebb.Controllers
         }
 
         // GET: Reservations/Details/5
+        [Authorize(Roles = "ActAdmin")]
         public async Task<IActionResult> Details(int? id)
         {
             return View(await RestHelper.ApiGet<Reservation>(api, id));
@@ -51,16 +53,25 @@ namespace ResAktWebb.Controllers
         public async Task<IActionResult> Create([Bind("Id,StartTime,EndTime,CustomerName,NumParticipants,TableNum")] Reservation reservation)
         {
             await RestHelper.ApiCreate<Reservation>(api, reservation);
-            return RedirectToAction("Index");
+            if (User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                return Redirect("~/Guest/GetReservations/");
+            }
         }
 
         // GET: Reservations/Edit/5
+        [Authorize(Roles = "ActAdmin")]
         public async Task<IActionResult> Edit(int? id)
         {
             return View(await RestHelper.ApiGet<Reservation>(api, id));
         }
 
         // POST: Reservations/Edit/5
+        [Authorize(Roles = "ActAdmin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,StartTime,EndTime,CustomerName,NumParticipants,TableNum")] Reservation reservation)
@@ -71,6 +82,7 @@ namespace ResAktWebb.Controllers
         }
 
         // GET: Reservations/Delete/5
+        [Authorize(Roles = "ActAdmin")]
         public async Task<IActionResult> Delete(int? id)
         {
             return View(await RestHelper.ApiGet<Reservation>(api, id));
@@ -78,6 +90,7 @@ namespace ResAktWebb.Controllers
 
         // POST: Activities/Delete/5
         [HttpPost, ActionName("Delete")]
+        [Authorize(Roles = "ActAdmin")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
