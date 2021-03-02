@@ -70,14 +70,8 @@ namespace ResAktWebb.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Name,MenuId")] MenuCategory menuCategory)
         {
-            using (HttpClient c = new HttpClient())
-            {
-                string dataAsJson = JsonConvert.SerializeObject(menuCategory);
-                var r = await c.PostAsync("http://localhost:64014/api/MenuCategories", new StringContent(dataAsJson, Encoding.UTF8, "application/json"));
-            }
-
-
-            //await RestHelper.ApiCreate<MenuCategory>(menuCatApi, menuCategory);
+            menuCategory.Id = 0;//För att fixa autoincrement
+            await RestHelper.ApiCreate<MenuCategory>(menuCatApi, menuCategory);
             return RedirectToAction("Index", new { id = menuCategory.MenuId });
 
         }
@@ -111,8 +105,9 @@ namespace ResAktWebb.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
+            var m = await RestHelper.ApiGet<MenuCategory>(menuCatApi, id);
             await RestHelper.ApiDelete<MenuCategory>(menuCatApi, id);
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(Index), new {id=m.MenuId});
         }
 
         private bool MenuCategoryExists(int id)
