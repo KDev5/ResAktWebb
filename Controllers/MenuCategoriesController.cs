@@ -70,13 +70,8 @@ namespace ResAktWebb.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Name,MenuId")] MenuCategory menuCategory)
         {
-            using (HttpClient c = new HttpClient())
-            {
-                string dataAsJson = JsonConvert.SerializeObject(menuCategory);
-                var r = await c.PostAsync("http://localhost:64014/api/MenuCategories", new StringContent(dataAsJson, Encoding.UTF8, "application/json"));
-            }
-
-            //await RestHelper.ApiCreate<MenuCategory>(menuCatApi, menuCategory);
+            menuCategory.Id = 0;
+            await RestHelper.ApiCreate<MenuCategory>(menuCatApi, menuCategory);
             return RedirectToAction("Index", new { id = menuCategory.MenuId });
 
         }
