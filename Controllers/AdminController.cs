@@ -46,7 +46,7 @@ namespace ResAktWebb.Controllers
             if (verifiedUser.Status != false)
             {
                 var identity = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationScheme);
-                for(int i = 0; i > verifiedUser.Role.Length; i++)
+                for(int i = 0; i < verifiedUser.Role.Length; i++)
                 {
                     identity.AddClaim(new Claim(ClaimTypes.Role, verifiedUser.Role[i]));
                 }
