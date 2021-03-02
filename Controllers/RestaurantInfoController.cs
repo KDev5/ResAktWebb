@@ -24,7 +24,7 @@ namespace ResAktWebb.Controllers
         public async Task<IActionResult> Index()
         {
             var a = await RestHelper.ApiGet<RestaurantInfo>(api);
-            ViewData["OpenHours"] = (a);
+            
             return View(a);
         }
 
