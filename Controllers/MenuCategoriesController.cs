@@ -70,7 +70,7 @@ namespace ResAktWebb.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Name,MenuId")] MenuCategory menuCategory)
         {
-            menuCategory.Id = 0;
+            menuCategory.Id = 0;//För att fixa autoincrement
             await RestHelper.ApiCreate<MenuCategory>(menuCatApi, menuCategory);
             return RedirectToAction("Index", new { id = menuCategory.MenuId });
 
