@@ -36,37 +36,3 @@
 <hr />
 
 
-<script>
-
-    $(function () {
-
-        // toggla av klassen för popbox
-        $("#myBtn").click(() => {
-            $("#pop").toggleClass("toggle-pop")
-        });
-
-        // Visa toast att bokning är skapad
-        $("#go").click(() => {
-            //SHOW TOAST
-            alert("Bokning skapad");
-        });
-    });
-
-
-</script>
-
-<button id="myBtn">show/hide</button>
-
-<div class="pop-fixed-box">
-    <div class="pop-box toggle-pop" id="pop">
-        <h3 style="color:red;">Form som skall fyllas</h3>
-        
-        <form method="post">
-            <input type="text"/>
-            <input type="submit" value="GO" id="go"/>
-        </form>
-        
-    
-
-    </div>
-</div>

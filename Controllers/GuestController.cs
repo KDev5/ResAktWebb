@@ -38,5 +38,33 @@ namespace ResAktWebb.Controllers
 			return View(info);
 		}
 
+		public async Task<ActionResult> GetClickedActivityAsync(int id)
+		{
+			var act = await RestHelper.ApiGet<Activity>("Activities/", id);
+			System.Diagnostics.Debug.WriteLine(act.Id + act.Description);
+
+			return Json(act);
+		}
+		public async Task<ActionResult> CreateActivityBooking(string name, int num, int aId)
+		{
+			System.Diagnostics.Debug.WriteLine("<-- CreateActivityBooking -->" );
+			System.Diagnostics.Debug.WriteLine("name: " + name);
+			System.Diagnostics.Debug.WriteLine("num: " + num);
+			System.Diagnostics.Debug.WriteLine("aId: " + aId);
+
+
+			var newAB = new ActivityBooking();
+			newAB.CustomerName = name;
+			newAB.NumParticipants = num;
+			newAB.ActivityId = aId;
+			var response = "<-- CreateActivityBooking was called -->";
+			
+				
+			await RestHelper.ApiCreate<ActivityBooking>("ActivityBookings/", newAB);
+			
+
+			return Json(response);
+		}
+
 	}
 }

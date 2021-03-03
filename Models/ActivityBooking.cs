@@ -13,6 +13,8 @@ namespace ResAktWebb.Models
         public int Id { get; set; }
         public string CustomerName { get; set; }
         public int NumParticipants { get; set; }
+
+        //bör lägga till email och telefonnummer då vi inte har någon koppling till gästsidan.
  
         // FK
         

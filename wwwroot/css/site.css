@@ -16,18 +16,13 @@ for details on configuring this project to bundle and minify static web assets. 
     position: relative;
     margin: 10px;
     padding: 10px;
+    transition: width 1s, height 1s, transform 1s;
 
     /*border: 1px groove grey;
-    transition: width 1s, height 1s, transform 1s;
     */
 }
 
-    .pop-box:hover {
-        @*width: 50%;
-        height: 300px;
-        *@
-    }
-
+   
 .testing {
     color: red;
 }
