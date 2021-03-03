@@ -103,7 +103,8 @@
 
     function handleBookingForm() {
 
-        alert("TestData: " + $("#pop-form-number").val());
+        // alert("TestData: " + $("#pop-form-number").val());
+
         $.ajax({
                 type: 'POST',
                 url: '@Url.Action("CreateActivityBooking")',
@@ -115,6 +116,8 @@
                 success: function (data) {
                     console.log(data);
                     console.log("ActivityBooking created!")
+                    alert("Din bokning är skapad")
+                    ExitButton();
                 }
 
             });
@@ -126,27 +129,7 @@
 </script>
 
 
-@*<script>
-     // do jquery here
-    function handleBookingForm() {
-        //Submit-button, här skapar vi Activitybooking
-             $.ajax({
-                type: 'POST',
-                url: @Url.Action("CreateActivityBooking"),
-                data: {
-                    name: $("#pop-form-name"),
-                    num: $("#pop-form-num").val(),
-                    aId: $("#pop-form-aId").val()
-                },
-                success: function (data) {
-                    console.log(data);
-                }
 
-            });
-            //SHOW TOAST
-             alert("Bokning bör ha skapats");
-    }
-</script>*@
 <div class="pop-fixed-box" id="csstest">
     <div class="pop-box toggle-pop" id="pop">
         <button id="exit" style="float:right" onclick="ExitButton()">X</button>
