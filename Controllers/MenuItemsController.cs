@@ -54,6 +54,7 @@ namespace ResAktWebb.Controllers
         }
 
         // GET: MenuItems/Create
+        [Authorize(Roles = "ResAdmin")]
         public async Task<IActionResult> Create(int? id)
         {
             ViewData["route"]= id;
@@ -64,6 +65,7 @@ namespace ResAktWebb.Controllers
 
         // POST: MenuItems/Create
         [HttpPost]
+        [Authorize(Roles = "ResAdmin")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Name,Description,Allergies,Price,MenuCategoryId")] MenuItems menuItems)
         {
@@ -73,6 +75,7 @@ namespace ResAktWebb.Controllers
         }
 
         // GET: MenuItems/Edit/Id
+        [Authorize(Roles = "ResAdmin")]
         public async Task<IActionResult> Edit(int? id)
         {
             var menuCategories = await RestHelper.ApiGet<MenuCategory>(menuCatApi);
@@ -83,6 +86,7 @@ namespace ResAktWebb.Controllers
 
         // POST: MenuItems/Edit/Id
         [HttpPost]
+        [Authorize(Roles = "ResAdmin")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Description,Allergies,Price,MenuCategoryId")] MenuItems menuItems)
         {
@@ -91,6 +95,7 @@ namespace ResAktWebb.Controllers
         }
 
         // GET: MenuItems/Delete/Id
+        [Authorize(Roles = "ResAdmin")]
         public async Task<IActionResult> Delete(int? id)
         {
             return View(await RestHelper.ApiGet<MenuItems>(menuItemApi, id));
@@ -98,6 +103,7 @@ namespace ResAktWebb.Controllers
 
         // POST: MenuItems/Delete/Id
         [HttpPost, ActionName("Delete")]
+        [Authorize(Roles = "ResAdmin")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {

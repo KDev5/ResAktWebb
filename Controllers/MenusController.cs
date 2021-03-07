@@ -55,6 +55,7 @@ namespace ResAktWebb.Controllers
         }
 
         // GET: Menus/Create
+        [Authorize(Roles = "ResAdmin")]
         public IActionResult Create()
         {
             return View();
@@ -62,6 +63,7 @@ namespace ResAktWebb.Controllers
 
         // POST: Menus/Create
         [HttpPost]
+        [Authorize(Roles = "ResAdmin")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Name")] Menu menu)
         {
@@ -78,6 +80,7 @@ namespace ResAktWebb.Controllers
         // POST: Menus/Edit/id
 
         [HttpPost]
+        [Authorize(Roles = "ResAdmin")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Name")] Menu menu)
         {
@@ -93,6 +96,7 @@ namespace ResAktWebb.Controllers
         }
 
         // POST: Menus/Delete/id
+        [Authorize(Roles = "ResAdmin")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)

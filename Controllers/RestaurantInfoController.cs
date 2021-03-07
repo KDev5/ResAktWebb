@@ -37,6 +37,7 @@ namespace ResAktWebb.Controllers
         }
 
         // GET: RestaurantInfo/Create
+        [Authorize(Roles = "ResAdmin")]
         public IActionResult Create()
         {
             return View();
@@ -44,6 +45,7 @@ namespace ResAktWebb.Controllers
 
         // POST: RestaurantInfo/Create
         [HttpPost]
+        [Authorize(Roles = "ResAdmin")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Name,Open,Closed")] RestaurantInfo restaurantInfo)
         {
@@ -52,12 +54,14 @@ namespace ResAktWebb.Controllers
         }
 
         // GET: RestaurantInfo/Edit/5
+        [Authorize(Roles = "ResAdmin")]
         public async Task<IActionResult> Edit(int? id)
         {
             return View(await RestHelper.ApiGet<RestaurantInfo>(api, id));
         }
 
         // POST: RestaurantInfo/Edit/5
+        [Authorize(Roles = "ResAdmin")]
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -70,6 +74,7 @@ namespace ResAktWebb.Controllers
 
 
         // GET: RestaurantInfo/Delete/5
+        [Authorize(Roles = "ResAdmin")]
         public async Task<IActionResult> Delete(int? id)
         {
             return View(await RestHelper.ApiGet<RestaurantInfo>(api, id));
@@ -77,6 +82,7 @@ namespace ResAktWebb.Controllers
 
         // POST: RestaurantInfo/Delete/5
         [HttpPost, ActionName("Delete")]
+        [Authorize(Roles = "ResAdmin")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
