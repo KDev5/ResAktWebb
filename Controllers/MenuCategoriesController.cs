@@ -72,7 +72,7 @@ namespace ResAktWebb.Controllers
         {
             menuCategory.Id = 0;//För att fixa autoincrement
             await RestHelper.ApiCreate<MenuCategory>(menuCatApi, menuCategory);
-            return RedirectToAction("Index", new { id = menuCategory.MenuId });
+            return RedirectToAction("Index", "Menus" /*,new { id = menuCategory.MenuId }*/);
 
         }
 
@@ -91,7 +91,7 @@ namespace ResAktWebb.Controllers
         public async Task<IActionResult> Edit(int id, [Bind("Id,Name,MenuId")] MenuCategory menuCategory)
         {
             await RestHelper.ApiEdit<MenuCategory>(menuCatApi + id, menuCategory);
-            return RedirectToAction("Index", "MenuCategories", new { id = menuCategory.MenuId });
+            return RedirectToAction("Index", "Menus"/*, new { id = menuCategory.MenuId }*/);
         }
 
         // GET: MenuCategories/Delete/Id
@@ -107,7 +107,7 @@ namespace ResAktWebb.Controllers
         {
             var m = await RestHelper.ApiGet<MenuCategory>(menuCatApi, id);
             await RestHelper.ApiDelete<MenuCategory>(menuCatApi, id);
-            return RedirectToAction(nameof(Index), new {id=m.MenuId});
+            return RedirectToAction("Index", "Menus"/*, new {id=m.MenuId}*/);
         }
 
         private bool MenuCategoryExists(int id)
