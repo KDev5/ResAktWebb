@@ -3,72 +3,95 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - ResAktWebb</title>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
+    <title>@ViewData["Title"] - SeaSharp</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
+    <link href="http://193.10.202.77/css/HotelSeasharp.css" rel="stylesheet" />
 </head>
 <body>
+    <img class="kund" src="http://193.10.202.77/images/kund.jpg" />
+    <p style="text-align: right">Kundservice</p>
     <header>
-        <nav class="navbar navbar-expand-lg navbar-dark bg-primary mb-3">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light border-bottom box-shadow mb-3" style="background-color:coral; opacity:0.6; width: 100%;">
+            <h1 class="rubrik1">Hotell SeaSharp</h1>
+
             <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">ResAktWebb</a>
+                @*<a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Hotell SeaSharp</a>*@
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            <a class="nav-link text-dark" style="font-weight:bold" asp-area="" asp-controller="Home" asp-action="Index">HEM</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" style="font-weight:bold" asp-area="" asp-controller="Home" asp-action="Index">GÄST</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" style="font-weight:bold" asp-area="" asp-controller="Home" asp-action="Index">RUM</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" style="font-weight:bold" asp-area="" asp-controller="ConferenceRooms" asp-action="Index">KONFERENSRUM</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" style="font-weight:bold" asp-area="" asp-controller="Conferences" asp-action="Index">KONFERENSER</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" style="font-weight:bold" asp-area="" asp-controller="Home" asp-action="Index">RESTAURANG</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" style="font-weight:bold" asp-area="" asp-controller="Home" asp-action="Index">AKTIVITETER</a>
                         </li>
 
-                        @if (User.Identity.IsAuthenticated)
-                        {
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Activities" asp-action="Index">Activities</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="ActivityBookings" asp-action="Index">ActivityBookings</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Reservations" asp-action="Index">Resturangbokningar</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="RestaurantInfo" asp-action="Index">Resturanginformation</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Menus" asp-action="Index">Menyer</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="SignOut">Logga ut</a>
-                            </li>
-                        }
+                        <style>
+                            .dropdown {
+                                position: relative;
+                                display: inline-block;
+                            }
 
-                        @if (!User.Identity.IsAuthenticated)
-                        {
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Activities" asp-action="Index">Activities</a>
-                            </li>
-                            @*<li class="nav-item">
-                <a class="nav-link text-dark" asp-area="" asp-controller="RestaurantInfo" asp-action="Index">Resturanginformation</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link text-dark" asp-area="" asp-controller="Menus" asp-action="Index">Menyer</a>
-            </li>*@
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="Index">Login</a>
-                            </li>
-                        }
+                            .dropdown-content {
+                                display: none;
+                                position: absolute;
+                                background-color: #f9f9f9;
+                                min-width: 160px;
+                                box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+                                padding: 12px 16px;
+                                z-index: 1;
+                            }
+
+                            .dropdown:hover .dropdown-content {
+                                display: block;
+                            }
+                        </style>
+                        <li class="dropdown nav-item">
+                            <a class="nav-link text-dark" style="font-weight:bold" asp-area="" asp-controller="Home" asp-action="Index">testAktiviteter</a>
+
+                            @*<a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">testAktiviteter</a>*@
+                            <div class="nav-link text-dark dropdown-content">
+                                <a class="dropdown-item" href="#">Action</a>
+                                <a class="dropdown-item" href="#">Another action</a>
+                                <a class="dropdown-item" href="#">Something else here</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="#">Separated link</a>
+                            </div>
+                        </li>
+
+
+
+
+
+
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" style="font-weight:bold" asp-area="" asp-controller="Login" asp-action="Index">Logga in</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" style="font-weight:bold" asp-area="" asp-controller="Login" asp-action="SignOut">Logga ut</a>
+                        </li>
 
                     </ul>
                 </div>
-                @if (User.Identity.IsAuthenticated)
-                {
-                    <a class="float-right flex-grow-2" style="color: white">Welcome @User.Identity.Name</a>
-                }
             </div>
         </nav>
     </header>
@@ -77,13 +100,16 @@
             @RenderBody()
         </main>
     </div>
-
+    <img class="bild" src="http://193.10.202.77/images/hotelbilden.jpg" width="1400" height="900" align="middle" margin-left="auto" margin-right="auto" />
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2021 - ResAktWebb - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            &copy; 2021 - Hotell SeaSharp - <a asp-area="" asp-controller="Home" asp-action="Index">Till första sidan</a>
         </div>
     </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
 
-    @RenderSection("Scripts", required: false)
 </body>
 </html>

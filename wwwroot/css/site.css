@@ -4,6 +4,12 @@ for details on configuring this project to bundle and minify static web assets. 
 
 /* TOBBE CSS */
 
+.test 
+{
+  color: red;
+  text-decoration: none;
+}
+
 .pop-fixed-box {
     position: fixed;
     left: 38.5%;
