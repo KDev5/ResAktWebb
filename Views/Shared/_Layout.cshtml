@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - SeaSharp</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" />
     <link href="http://193.10.202.77/css/HotelSeasharp.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/css/site.css" />
 </head>
 <body>
     <img class="kund" src="http://193.10.202.77/images/kund.jpg" />
@@ -66,17 +66,23 @@
                             }
                         </style>
                         <li class="dropdown nav-item">
-                            <a class="nav-link text-dark" style="font-weight:bold" asp-area="" asp-controller="Home" asp-action="Index">testAktiviteter</a>
+                            <a class="nav-link text-dark" style="font-weight:bold" asp-area="" asp-controller="Home" asp-action="Index">TESTAKTIVITETER</a>
 
                             @*<a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">testAktiviteter</a>*@
                             <div class="nav-link text-dark dropdown-content">
-                                <a class="dropdown-item" href="#">Action</a>
-                                <a class="dropdown-item" href="#">Another action</a>
-                                <a class="dropdown-item" href="#">Something else here</a>
+                                <a class="dropdown-item" asp-area="" asp-controller="Guest" asp-action="GetActivities">Visa Aktiviteter</a>
+                                <a class="dropdown-item" asp-area="" asp-controller="Guest" asp-action="RestaurantInfo">Restaurant Info</a>
+                                <a class="dropdown-item" asp-area="" asp-controller="Guest" asp-action="#">Mina Bokningar **</a>
+                                <a class="dropdown-item" asp-area="" asp-controller="Guest" asp-action="GetReservations">Reservera bord i restaurangen</a>
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="#">Separated link</a>
                             </div>
                         </li>
+
+                       @*@ @Html.ActionLink("Visa aktiviteter", "GetActivities") @* Skall visa de aktiviteter som finns tillgängliga att boka in sig på 
+                        @Html.ActionLink("Restaurangen", "RestaurantInfo")  Skall ta fram kort information om restaurangen och kanske snabblänk till att boka ett bord 
+                        @Html.ActionLink("Mina Bokningar", null)  Skall visa vy för alla bokningar som finns under gästen, både aktiviteter och bokade bord i restaurang. 
+                        @Html.ActionLink("Reservera bord i restaurangen", "GetReservations")*@
 
 
 
@@ -95,13 +101,13 @@
             </div>
         </nav>
     </header>
-    <div class="container">
+    <div class="container .bild">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
     </div>
-    <img class="bild" src="http://193.10.202.77/images/hotelbilden.jpg" width="1400" height="900" align="middle" margin-left="auto" margin-right="auto" />
-    <footer class="border-top footer text-muted">
+    @*<img class="bild" src="http://193.10.202.77/images/hotelbilden.jpg" width="1400" height="900" align="middle" margin-left="auto" margin-right="auto" />*@
+    <footer class="border-top footer text-muted" style="position:fixed; left:0;bottom:0;">
         <div class="container">
             &copy; 2021 - Hotell SeaSharp - <a asp-area="" asp-controller="Home" asp-action="Index">Till första sidan</a>
         </div>

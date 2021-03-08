@@ -3,7 +3,25 @@ for details on configuring this project to bundle and minify static web assets. 
 
 
 /* TOBBE CSS */
-
+.my-div {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 15px;
+}
+table {
+    border-radius:25px;
+}
+body {
+    background-image: url("http://193.10.202.77/images/hotelbilden.jpg");
+    background-position: center;
+    background-repeat:no-repeat;
+    background-size:cover;
+    position: relative;
+}
+.container-addition {
+    color:red;
+    border-radius: 15px;
+}
 .test 
 {
   color: red;
@@ -11,16 +29,17 @@ for details on configuring this project to bundle and minify static web assets. 
 }
 
 .pop-fixed-box {
-    position: fixed;
-    left: 38.5%;
-    top: 50%;
+    width:30%;
+    margin:auto;
+    left: unset;
+    top: 45%;
     background-color: #808080;
     border: 1px solid black;
 }
 
 .pop-box {
     position: relative;
-    margin: 10px;
+    
     padding: 10px;
     transition: width 1s, height 1s, transform 1s;
 
