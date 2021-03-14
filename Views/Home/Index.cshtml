@@ -1,5 +1,10 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
+    @if (User.IsInRole("ActAdmin") || User.IsInRole("ResAdmin"))
+{
+        Layout = "~/Views/Shared/_Layout_Admin.cshtml";
+    }
+
 }
 
 <div class="text-center">
@@ -28,7 +33,8 @@
 
 
 
-@Html.ActionLink("GUEST", "Index","Guest") <br />
+@Html.ActionLink("GUEST", "Index", "Guest")
+<br />
 
 
 <br />

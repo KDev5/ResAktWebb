@@ -25,27 +25,41 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
 
-                        @if (User.Identity.IsAuthenticated)
+                        @if (User.IsInRole("ResAdmin"))
                         {
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Activities" asp-action="Index">Activities</a>
+                            <li class="dropdown nav-item">
+                                <a class="nav-link text-dark" style="font-weight:bold" asp-area="" asp-controller="Home" asp-action="Index">Restaurang</a>
+                                <div class="nav-link text-dark dropdown-content">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Menus" asp-action="Index">Meny</a>
+                                    <a class="dropdown-item" asp-area="" asp-controller="RestaurantInfo" asp-action="Index">Restaurant Info</a>
+                                    <a class="dropdown-item" asp-area="" asp-controller="Reservations" asp-action="Index">Mina Bokningar **</a>
+                                    <div class="dropdown-divider"></div>
+                                    @*<a class="dropdown-item" href="#">Separated link</a>*@
+                                </div>
                             </li>
+                            
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="ActivityBookings" asp-action="Index">ActivityBookings</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="SignOut">Logga ut</a>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Reservations" asp-action="Index">Resturangbokningar</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="RestaurantInfo" asp-action="Index">Resturanginformation</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Menus" asp-action="Index">Menyer</a>
+
+                        }
+                        @if (User.IsInRole("ActAdmin"))
+                        {
+                            <li class="dropdown nav-item">
+                                <a class="nav-link text-dark" style="font-weight:bold" asp-area="" asp-controller="Home" asp-action="Index">Restaurang</a>
+                                <div class="nav-link text-dark dropdown-content">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Activities" asp-action="Index">Aktiviteter</a>
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="ActivitityBookings" asp-action="Index">Aktivitetsbokningar</a>
+                                    <div class="dropdown-divider"></div>
+                                    @*<a class="dropdown-item" href="#">Separated link</a>*@
+                                </div>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="SignOut">Logga ut</a>
                             </li>
+
                         }
+
 
                         @if (!User.Identity.IsAuthenticated)
                         {
@@ -53,17 +67,37 @@
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Activities" asp-action="Index">Activities</a>
                             </li>
                             @*<li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="RestaurantInfo" asp-action="Index">Resturanginformation</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Menus" asp-action="Index">Menyer</a>
-                            </li>*@
+                <a class="nav-link text-dark" asp-area="" asp-controller="RestaurantInfo" asp-action="Index">Resturanginformation</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-dark" asp-area="" asp-controller="Menus" asp-action="Index">Menyer</a>
+            </li>*@
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="Index">Login</a>
                             </li>
                         }
 
                     </ul>
+                    <style>
+                        .dropdown {
+                            position: relative;
+                            display: inline-block;
+                        }
+
+                        .dropdown-content {
+                            display: none;
+                            position: absolute;
+                            background-color: #f9f9f9;
+                            min-width: 160px;
+                            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+                            padding: 12px 16px;
+                            z-index: 1;
+                        }
+
+                        .dropdown:hover .dropdown-content {
+                            display: block;
+                        }
+                    </style>
                 </div>
                 @if (User.Identity.IsAuthenticated)
                 {
