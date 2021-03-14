@@ -128,25 +128,27 @@
 
 
 
-        <div class="pop-fixed-box" id="csstest">
-            <div class="pop-box toggle-pop" id="pop">
-                <button id="exit" style="float:right" onclick="ExitButton()">X</button>
-                <h3 style="color:red;">Form som skall fyllas</h3>
-                <p id="pop-desc"></p>
-                <form method="post">
+        
+</div>
 
-                    <label for="name">Name: </label> <br />
-                    <input type="text" name="name" id="pop-form-name"/> <br />
+<div class="pop-fixed-box" id="csstest">
+    <div class="pop-box toggle-pop" id="pop">
+        <button id="exit" style="float:right" onclick="ExitButton()">X</button>
+        <h3 style="color:red;">Form som skall fyllas</h3>
+        <p id="pop-desc"></p>
+        <form method="post">
 
-                    <label for="num">Number of participants:</label> <br />
-                    <input type="number" name="num" id="pop-form-number"/> <br />
-                    @* Gömd input som sparar aktivitetens id *@
-                    <input type="hidden" id="pop-form-aId"/>
+            <label for="name">Name: </label> <br />
+            <input type="text" name="name" id="pop-form-name" /> <br />
 
-                    <input type="button" value="GO" id="createActivityBooking" onclick="handleBookingForm()" />
+            <label for="num">Number of participants:</label> <br />
+            <input type="number" name="num" id="pop-form-number" /> <br />
+            @* Gömd input som sparar aktivitetens id *@
+            <input type="hidden" id="pop-form-aId" />
+
+            <input type="button" value="GO" id="createActivityBooking" onclick="handleBookingForm()" />
 
 
-                </form>
-            </div>
-        </div>
+        </form>
+    </div>
 </div>
