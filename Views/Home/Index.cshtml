@@ -1,7 +1,7 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
     @if (User.IsInRole("ActAdmin") || User.IsInRole("ResAdmin"))
-{
+    {
         Layout = "~/Views/Shared/_Layout_Admin.cshtml";
     }
 

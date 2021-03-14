@@ -2,71 +2,73 @@
 
 @{
     ViewData["Title"] = "Edit";
-    Layout = "Layout_Admin.cshtml";
+    Layout = "_Layout_Admin";
 }
+<div class="my-div">
 
-<h1>Edit</h1>
-<h1>@Html.DisplayFor(m => m.Description)</h1>
+    <h1>Edit</h1>
+    <h1>@Html.DisplayFor(m => m.Description)</h1>
 
-<h4>Activity</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <hr /> START OF TEST <hr />
+    <h4>Activity</h4>
+    <hr />
+    <div class="row">
+        <div class="col-md-4">
+            <form asp-action="Edit">
+                <hr /> START OF TEST <hr />
 
-            <dl class="row">
-                <dt class=" =" col-sm-2>
-                    @Html.DisplayNameFor(m => m.Description)
-                </dt>
-                <dd class="col-sm-10">
-                    @Html.EditorFor(m => m.Description)
-                </dd>
-            </dl>
+                <dl class="row">
+                    <dt class=" =" col-sm-2>
+                        @Html.DisplayNameFor(m => m.Description)
+                    </dt>
+                    <dd class="col-sm-10">
+                        @Html.EditorFor(m => m.Description)
+                    </dd>
+                </dl>
 
-            <dl class="row">
-                <dt class=" =" col-sm-2>
-                    @Html.DisplayNameFor(m => m.Location)
-                </dt>
-                <dd class="col-sm-10">
-                    @Html.EditorFor(m => m.Location)
-                </dd>
-            </dl>
+                <dl class="row">
+                    <dt class=" =" col-sm-2>
+                        @Html.DisplayNameFor(m => m.Location)
+                    </dt>
+                    <dd class="col-sm-10">
+                        @Html.EditorFor(m => m.Location)
+                    </dd>
+                </dl>
 
-            <dl class="row">
-                <dt class=" =" col-sm-2>
-                    @Html.DisplayNameFor(m => m.Price)
-                </dt>
-                <dd class="col-sm-10">
-                    @Html.EditorFor(m => m.Price)
-                </dd>
-            </dl>
+                <dl class="row">
+                    <dt class=" =" col-sm-2>
+                        @Html.DisplayNameFor(m => m.Price)
+                    </dt>
+                    <dd class="col-sm-10">
+                        @Html.EditorFor(m => m.Price)
+                    </dd>
+                </dl>
 
-            <dl class="row">
-                <dt class=" =" col-sm-2>
-                    @Html.DisplayNameFor(m => m.StartTime)
-                </dt>
-                <dd class="col-sm-10">
-                    @Html.EditorFor(m => m.StartTime)
-                </dd>
-            </dl>
+                <dl class="row">
+                    <dt class=" =" col-sm-2>
+                        @Html.DisplayNameFor(m => m.StartTime)
+                    </dt>
+                    <dd class="col-sm-10">
+                        @Html.EditorFor(m => m.StartTime)
+                    </dd>
+                </dl>
 
-            <dl class="row">
-                <dt class=" =" col-sm-2>
-                    @Html.DisplayNameFor(m => m.EndTime)
-                </dt>
-                <dd class="col-sm-10">
-                    @Html.EditorFor(m => m.EndTime)
-                </dd>
-            </dl>
+                <dl class="row">
+                    <dt class=" =" col-sm-2>
+                        @Html.DisplayNameFor(m => m.EndTime)
+                    </dt>
+                    <dd class="col-sm-10">
+                        @Html.EditorFor(m => m.EndTime)
+                    </dd>
+                </dl>
 
-            <input type="submit" value="Accept"/>
-        </form>
+                <input type="submit" value="Accept" />
+            </form>
+        </div>
     </div>
-</div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
+    <div>
+        <a asp-action="Index">Back to List</a>
+    </div>
 </div>
 
 @section Scripts {
