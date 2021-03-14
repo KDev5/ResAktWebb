@@ -2,155 +2,159 @@
 
 @{
     ViewData["Title"] = "Index";
-}
-
-<h1>Index</h1>
-
-<p>
-    <a asp-action="Create">+ MENU</a>
-</p>
-<p>
-    <a asp-controller="MenuCategories" asp-action="Create">+ MENUCATEGORY</a>
-</p>
-<p>
-    <a asp-controller="MenuItems" asp-action="Create">+ ITEM</a>
-</p>
-
-
-        @foreach (var item in Model)
-        {
-            <div style="background:#757575">
-                <h1>
-                    @Html.DisplayFor(modelItem => item.Name)
-                </h1>
-                <div>
-                    
-
-                    @if (User.Identity.IsAuthenticated)
-                    {
-                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
-                        <a asp-action="Details" asp-route-id="@item.Id">Details</a>
-                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                    }
-
-                </div>
-            </div>
-            @foreach (var item2 in item.MenuCategory)
-            {
-                if (item2.MenuId == item.Id)
-                {
-
-                    <div style="background:#B5B5B5">
-                        <h2>
-                            @item2.Name
-                        </h2>
-                        <div>
-                            @*<a asp-controller="MenuCategories" asp-action="Index" asp-route-id="@item.Id">Open</a>*@
-                            <a asp-controller="MenuCategories" asp-action="Edit" asp-route-id="@item2.Id">Edit</a> |
-                            <a asp-controller="MenuCategories" asp-action="Details" asp-route-id="@item2.Id">Details</a> |
-                            <a asp-controller="MenuCategories" asp-action="Delete" asp-route-id="@item2.Id">Delete</a>
-                        </div>
-                    </div>
-
-
-                    @foreach (var item3 in item2.MenuItems)
-                    {
-                        @if (item3.MenuCategoryId == item2.Id)
-                        {
-                            <div style="background:#EBEBEB">
-                                <div>
-                                    @item3.Name
-                                </div>
-                                <div>
-                                    @item3.Description
-                                </div>
-                                <div>
-                                    @item3.Allergies
-                                </div>
-                                <div>
-                                    @item3.Price
-                                </div>
-                                <div>
-                                    @*<a asp-controller="MenuItems" asp-action="Index" asp-route-id="@item2.Id">Open</a>*@
-                                    
-                                    <a asp-controller="MenuItems" asp-action="Edit" asp-route-id="@item3.Id">Edit</a> |
-                                    <a asp-controller="MenuItems" asp-action="Details" asp-route-id="@item3.Id">Details</a> |
-                                    <a asp-controller="MenuItems" asp-action="Delete" asp-route-id="@item3.Id">Delete</a>
-                                </div>
-                            </div>
-                        }
-                    }
-                }
-            }
-        }
-  
-@*@model IEnumerable<ResAktWebb.Models.Menu>
-
-@{
-    ViewData["Title"] = "Index";
-}
-
-<h1>Index</h1>
-
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-
-@foreach (var item in Model)
-{
-    <div style="background:#757575">
-        <h1>
-            @Html.DisplayFor(modelItem => item.Name)
-        </h1>
-        <span>
-
-            @if (User.Identity.IsAuthenticated)
-            {
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a>
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            }
-
-        </span>
-    </div>
-
-    @foreach (var item2 in item.MenuCategory)
+    @if (User.IsInRole("ActAdmin") || User.IsInRole("ResAdmin"))
     {
-        <div>
-            @if (item2.MenuId == item.Id)
+        Layout = "~/Views/Shared/_Layout_Admin.cshtml";
+    }
+}
+<div class="my-div">
+    <h1>Index</h1>
+
+    <p>
+        <a asp-action="Create">+ MENU</a>
+    </p>
+    <p>
+        <a asp-controller="MenuCategories" asp-action="Create">+ MENUCATEGORY</a>
+    </p>
+    <p>
+        <a asp-controller="MenuItems" asp-action="Create">+ ITEM</a>
+    </p>
+
+
+    @foreach (var item in Model)
+    {
+        <div style="background:#757575">
+            <h1>
+                @Html.DisplayFor(modelItem => item.Name)
+            </h1>
+            <div>
+
+
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a>
+                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                }
+
+            </div>
+        </div>
+        @foreach (var item2 in item.MenuCategory)
+        {
+            if (item2.MenuId == item.Id)
             {
+
                 <div style="background:#B5B5B5">
                     <h2>
                         @item2.Name
                     </h2>
-                    <span>
-                        <a asp-controller="MenuCategories" asp-action="Index" asp-route-id="@item.Id">Katergorier</a>
-                    </span>
+                    <div>
+                        @*<a asp-controller="MenuCategories" asp-action="Index" asp-route-id="@item.Id">Open</a>*@
+                        <a asp-controller="MenuCategories" asp-action="Edit" asp-route-id="@item2.Id">Edit</a> |
+                        <a asp-controller="MenuCategories" asp-action="Details" asp-route-id="@item2.Id">Details</a> |
+                        <a asp-controller="MenuCategories" asp-action="Delete" asp-route-id="@item2.Id">Delete</a>
+                    </div>
                 </div>
+
 
                 @foreach (var item3 in item2.MenuItems)
                 {
                     @if (item3.MenuCategoryId == item2.Id)
                     {
-                        <h3 style="background:#EBEBEB">
-                            <p>
+                        <div style="background:#EBEBEB">
+                            <div>
                                 @item3.Name
-                            </p>
-                            <p>
+                            </div>
+                            <div>
                                 @item3.Description
-                            </p>
-                            <p>
+                            </div>
+                            <div>
                                 @item3.Allergies
-                            </p>
-                            <p>
+                            </div>
+                            <div>
                                 @item3.Price
-                            </p>
+                            </div>
+                            <div>
+                                @*<a asp-controller="MenuItems" asp-action="Index" asp-route-id="@item2.Id">Open</a>*@
 
-                        </h3>
+                                <a asp-controller="MenuItems" asp-action="Edit" asp-route-id="@item3.Id">Edit</a> |
+                                <a asp-controller="MenuItems" asp-action="Details" asp-route-id="@item3.Id">Details</a> |
+                                <a asp-controller="MenuItems" asp-action="Delete" asp-route-id="@item3.Id">Delete</a>
+                            </div>
+                        </div>
                     }
                 }
             }
-        </div>
+        }
     }
-}*@
+</div>
+@*@model IEnumerable<ResAktWebb.Models.Menu>
+
+    @{
+        ViewData["Title"] = "Index";
+    }
+
+    <h1>Index</h1>
+
+    <p>
+        <a asp-action="Create">Create New</a>
+    </p>
+
+    @foreach (var item in Model)
+    {
+        <div style="background:#757575">
+            <h1>
+                @Html.DisplayFor(modelItem => item.Name)
+            </h1>
+            <span>
+
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a>
+                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                }
+
+            </span>
+        </div>
+
+        @foreach (var item2 in item.MenuCategory)
+        {
+            <div>
+                @if (item2.MenuId == item.Id)
+                {
+                    <div style="background:#B5B5B5">
+                        <h2>
+                            @item2.Name
+                        </h2>
+                        <span>
+                            <a asp-controller="MenuCategories" asp-action="Index" asp-route-id="@item.Id">Katergorier</a>
+                        </span>
+                    </div>
+
+                    @foreach (var item3 in item2.MenuItems)
+                    {
+                        @if (item3.MenuCategoryId == item2.Id)
+                        {
+                            <h3 style="background:#EBEBEB">
+                                <p>
+                                    @item3.Name
+                                </p>
+                                <p>
+                                    @item3.Description
+                                </p>
+                                <p>
+                                    @item3.Allergies
+                                </p>
+                                <p>
+                                    @item3.Price
+                                </p>
+
+                            </h3>
+                        }
+                    }
+                }
+            </div>
+        }
+    }*@
 

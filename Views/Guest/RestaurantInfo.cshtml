@@ -3,15 +3,16 @@
 @{
     ViewData["Title"] = "Index";
 }
+<div class="my-div">
+    <h1>Restaurant information</h1>
 
-<h1>Restaurant information</h1>
+    @Html.ActionLink("MENU", "FullMenu", "RestaurantInfo")
 
-@Html.ActionLink("MENU", "FullMenu", "RestaurantInfo")
-
-@foreach (var item in Model)
-{
-    <div>@ViewBag.OpenHours</div>
-    <div>@Html.DisplayFor(modelItem => item.Name): @Html.DisplayFor(modelItem => item.Open) - @Html.DisplayFor(modelItem => item.Closed)</div>
-}
+    @foreach (var item in Model)
+    {
+        <div>@ViewBag.OpenHours</div>
+        <div>@Html.DisplayFor(modelItem => item.Name): @Html.DisplayFor(modelItem => item.Open) - @Html.DisplayFor(modelItem => item.Closed)</div>
+    }
 
 
+</div>
