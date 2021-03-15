@@ -12,19 +12,19 @@
 
     <p>
             @* Använder klasserna btn och btn-primary för att göra länkarna till snygga knappar istället *@
-            <a asp-action="Create" class="btn btn-primary">Skapa Ny</a>
+            <a asp-action="Create" class="btn btn-primary" style="text-decoration:none; color:white;">Skapa Ny</a>
     </p>
     <table class="table">
         <thead>
             <tr>
                 <th>
-                    @*@Html.DisplayNameFor(model => model.CustomerName)*@ Kundnamn
+                    @Html.DisplayNameFor(model => model.CustomerName) 
                 </th>
                 <th>
-                    @*@Html.DisplayNameFor(model => model.NumParticipants)*@ Antal deltagare
+                    @Html.DisplayNameFor(model => model.NumParticipants)
                 </th>
                 <th>
-                    @*@Html.DisplayNameFor(model => model.Activity)*@ Aktivitet
+                    @Html.DisplayNameFor(model => model.Activity) 
                 </th>
                 <th></th>
             </tr>
