@@ -10,22 +10,22 @@
     <h1>@ViewBag.MenuCategory</h1>
 
     <p>
-        <a asp-action="Create" asp-route-id="@ViewBag.route">Create New</a>
+        <a asp-action="Create" asp-route-id="@ViewBag.route">Skapa ny maträtt/dryck</a>
     </p>
     <table class="table">
         <thead>
             <tr>
                 <th>
-                    @Html.DisplayNameFor(model => model.Name)
+                    @*@Html.DisplayNameFor(model => model.Name)*@Namn
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Description)
+                    @*@Html.DisplayNameFor(model => model.Description)*@Beskrivning
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Allergies)
+                    @*@Html.DisplayNameFor(model => model.Allergies)*@Allergier
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Price)
+                    @*@Html.DisplayNameFor(model => model.Price)*@Pris
                 </th>
                 <th></th>
             </tr>
@@ -47,9 +47,9 @@
                         @Html.DisplayFor(modelItem => item.Price)
                     </td>
                     <td>
-                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                        <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                        <a asp-action="Edit" asp-route-id="@item.Id">Redigera</a> |
+                        <a asp-action="Details" asp-route-id="@item.Id">Detaljer</a> |
+                        <a asp-action="Delete" asp-route-id="@item.Id">Ta bort</a>
                     </td>
                 </tr>
             }
