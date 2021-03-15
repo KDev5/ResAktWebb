@@ -2,8 +2,11 @@
 
 @{
     ViewData["Title"] = "Create";
-    Layout = "~/Views/Shared/_Layout_Admin.cshtml";
-
+    if (User.IsInRole("ResAdmin"))
+    {
+        Layout = "~/Views/Shared/_Layout_Admin.cshtml";
+    }
+    
 }
 
 <div class="my-div">
@@ -41,15 +44,23 @@
                     <span asp-validation-for="TableNum" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <input type="submit" value="Create" class="btn btn-primary" />
+                    <input type="submit" value="OK" class="btn btn-primary" />
                 </div>
             </form>
         </div>
     </div>
-
-    <div>
-        <a asp-action="Index">Tillbaka till lista</a>
-    </div>
+    @if (User.IsInRole("ResAdmin"))
+    {
+        <div>
+            <a asp-action="Index">Tillbaka till lista</a>
+        </div>
+    }
+    else
+    {
+        <div>
+            <a asp-controller="Home" asp-action="Index">Tillbaka</a>
+        </div>
+    }
 </div>
 
 @section Scripts {
