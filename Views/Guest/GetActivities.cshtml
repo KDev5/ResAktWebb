@@ -9,10 +9,10 @@
     <table class="table">
 
         <tr>
-            <th>Description</th>
-            <th>Location</th>
-            <th>Price</th>
-            <th colspan="2">Starttime</th>
+            <th>Beskrivning</th>
+            <th>Plats</th>
+            <th>Pris</th>
+            <th colspan="2">Starttid</th>
         </tr>
 
         @foreach (var i in Model)
@@ -137,18 +137,32 @@
         <h3 style="color:red;">Form som skall fyllas</h3>
         <p id="pop-desc"></p>
         <form method="post">
+            <div class="center-div">
+               <dl class="row">
+                   <dt class="col-sm-4">
+                        <label for="name">Namn: </label> <br />
+                   </dt>
+                   <dd class="col-sm-10">
+                        <input type="text" name="name" id="pop-form-name" /> <br />
+                   </dd>
 
-            <label for="name">Name: </label> <br />
-            <input type="text" name="name" id="pop-form-name" /> <br />
-
-            <label for="num">Number of participants:</label> <br />
-            <input type="number" name="num" id="pop-form-number" /> <br />
-            @* Gömd input som sparar aktivitetens id *@
-            <input type="hidden" id="pop-form-aId" />
-
-            <input type="button" value="GO" id="createActivityBooking" onclick="handleBookingForm()" />
-
-
+                </dl>
+            </div>
+            <div class="center-div">
+                <dl class="row">
+                    <dt class="col-sm-4">
+                        <label for="num">Antal:</label> <br />
+                    </dt>
+                    <dd class="col-sm-10">
+                        <input type="number" name="num" id="pop-form-number" /> <br />
+                    </dd>
+                </dl>
+                        @* Gömd input som sparar aktivitetens id *@
+                        <input type="hidden" id="pop-form-aId" />
+            </div>
+            <div class="center-div">
+                <input type="button" value="Skapa Bokning" id="createActivityBooking" onclick="handleBookingForm()" />
+            </div>
         </form>
     </div>
 </div>

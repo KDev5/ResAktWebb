@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
@@ -24,6 +25,7 @@ namespace ResAktWebb.Models
         [ForeignKey("Activity")]
         [DisplayName("Aktivitet")]
 		public int ActivityId { get; set; }
+        [JsonIgnore]
         [DisplayName("Aktivitet")]
         public virtual Activity Activity { get; set; }
 
