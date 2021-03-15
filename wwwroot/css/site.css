@@ -13,7 +13,7 @@ for details on configuring this project to bundle and minify static web assets. 
     justify-content:center;
     align-items:center;
     margin: 10px;
-    
+
 }
 table {
     border-radius:25px;
@@ -32,14 +32,14 @@ body {
     color:red;
     border-radius: 15px;
 }
-.test 
+.test
 {
   color: red;
   text-decoration: none;
 }
 
 .pop-fixed-box {
-  
+
     position:fixed;
     left:35%;
     top:30%;
@@ -47,14 +47,15 @@ body {
     max-width:70%;
     min-width: 30%;
     margin: auto;
-    background: rgba(255,127,80,1);
+    background: rgba(255,127,80,0.8);
+    backdrop-filter: blur(3px);
 
     border-radius: 15px;
 }
 
 .pop-box {
     position: relative;
-    
+
     padding: 10px;
     transition: width 1s, height 1s, transform 1s;
 
@@ -62,7 +63,7 @@ body {
     */
 }
 
-   
+
 .testing {
     color: red;
 }
@@ -97,7 +98,7 @@ body {
 }
 
 .show {
-  display:none; 
+  display:none;
 }
 
 .testing {

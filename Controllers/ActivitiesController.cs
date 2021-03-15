@@ -28,11 +28,10 @@ namespace ResAktWebb.Controllers
         string api = "Activities/";
         public async Task<IActionResult> Index()
         {
-             
-            return View(await RestHelper.ApiGet<Activity>(api));
+          return View(await RestHelper.ApiGet<Activity>(api));
         }
 
-       
+
         // GET: Activities/Details/5
         public async Task<IActionResult> Details(int? id)
         {
@@ -41,7 +40,7 @@ namespace ResAktWebb.Controllers
             var temp = await RestHelper.ApiGet<ActivityBooking>("ActivityBookings");
             foreach (var item in temp)
             {
-                
+
                 System.Diagnostics.Debug.WriteLine($"<-- MATCH for removal --> \nDebugging templist: \nBookingId\n{item.Id} \nActivityID\n{item.ActivityId} \n{item.CustomerName}\n");
 				if (item.ActivityId == id)
 				{
@@ -59,7 +58,7 @@ namespace ResAktWebb.Controllers
         }
 
         // POST: Activities/Create
-    
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Description,Location,Price,StartTime,EndTime")] Activity activity)
@@ -80,7 +79,7 @@ namespace ResAktWebb.Controllers
         public async Task<IActionResult> Edit(int id, [Bind("Id,Description,Location,Price,StartTime,EndTime")] Activity activity)
         {
             await RestHelper.ApiEdit<Activity>(api + id, activity);
-        
+
             return RedirectToAction("Index","Activities");
         }
 
@@ -116,7 +115,7 @@ namespace ResAktWebb.Controllers
                     test.Add(item);
 				}
 			}
-             
+
             return test;
         }
     }
