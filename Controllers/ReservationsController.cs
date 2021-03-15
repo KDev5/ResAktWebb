@@ -59,7 +59,7 @@ namespace ResAktWebb.Controllers
             }
             else
             {
-                return Redirect("~/Guest/GetReservations/");
+                return Redirect("~/Home/Index/");
             }
         }
 

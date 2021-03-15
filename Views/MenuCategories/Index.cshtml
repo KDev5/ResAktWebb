@@ -7,13 +7,13 @@
 <h1>@ViewBag.Menu</h1>
 
 <p>
-    <a asp-action="Create" asp-route-id="@ViewBag.route">Create New</a>
+    <a asp-action="Create" asp-route-id="@ViewBag.route">Skapa ny menykategori</a>
 </p>
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Name)
+                @*@Html.DisplayNameFor(model => model.Name)*@Namn
             </th>
             <th></th>
         </tr>
@@ -27,9 +27,9 @@
             <td>
                 <a asp-controller="MenuItems" asp-action="Index" asp-route-id="@item.Id">Alternativ</a> |
 
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                <a asp-action="Edit" asp-route-id="@item.Id">Redigera</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Detaljer</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Ta bort</a>
             </td>
         </tr>
 }

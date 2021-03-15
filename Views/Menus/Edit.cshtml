@@ -5,9 +5,9 @@
     Layout = "~/Views/Shared/_Layout_Admin.cshtml";
 }
 <div class="my-div">
-    <h1>Edit</h1>
+    <h1>Redigera</h1>
 
-    <h4>Menu</h4>
+    <h4>Meny</h4>
     <hr />
     <div class="row">
         <div class="col-md-4">
@@ -15,19 +15,19 @@
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <input type="hidden" asp-for="Id" />
                 <div class="form-group">
-                    <label asp-for="Name" class="control-label"></label>
+                    <label asp-for="Name" class="control-label">Namn</label>
                     <input asp-for="Name" class="form-control" />
                     <span asp-validation-for="Name" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <input type="submit" value="Save" class="btn btn-primary" />
+                    <input type="submit" value="OK" class="btn btn-primary" />
                 </div>
             </form>
         </div>
     </div>
 
     <div>
-        <a asp-action="Index">Back to List</a>
+        <a asp-action="Index">Tillbaka till lista</a>
     </div>
 </div>
 @section Scripts {
