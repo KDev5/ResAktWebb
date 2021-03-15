@@ -69,7 +69,7 @@ namespace ResAktWebb.Controllers
         {
             await RestHelper.ApiEdit<RestaurantInfo>(api + id, restaurantInfo);
 
-            return RedirectToAction("Index", "Activities");
+            return RedirectToAction("Index");
         }
 
 

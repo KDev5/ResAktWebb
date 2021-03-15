@@ -7,28 +7,28 @@
 }
 
 <div class="my-div">
-    <h1>Index</h1>
+    <h1>Reservationer</h1>
 
     <p>
-        <a asp-action="Create">Create New</a>
+        <a asp-action="Create">Skapa ny reservation</a>
     </p>
     <table class="table">
         <thead>
             <tr>
                 <th>
-                    @Html.DisplayNameFor(model => model.StartTime)
+                    @*@Html.DisplayNameFor(model => model.StartTime)*@Starttid
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.EndTime)
+                    @*@Html.DisplayNameFor(model => model.EndTime)*@Sluttid
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.CustomerName)
+                    @*@Html.DisplayNameFor(model => model.CustomerName)*@Kundnamn
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.NumParticipants)
+                    @*@Html.DisplayNameFor(model => model.NumParticipants)*@Antal deltagande
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.TableNum)
+                    @*@Html.DisplayNameFor(model => model.TableNum)*@Bordsnummer
                 </th>
                 <th></th>
             </tr>
@@ -53,9 +53,9 @@
                         @Html.DisplayFor(modelItem => item.TableNum)
                     </td>
                     <td>
-                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                        <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                        <a asp-action="Edit" asp-route-id="@item.Id">Redigera</a> |
+                        <a asp-action="Details" asp-route-id="@item.Id">Detaljer</a> |
+                        <a asp-action="Delete" asp-route-id="@item.Id">Ta bort</a>
                     </td>
                 </tr>
             }

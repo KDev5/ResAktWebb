@@ -52,7 +52,17 @@ namespace ResAktWebb.Controllers
         // GET: MenuCategories/Details/Id
         public async Task<IActionResult> Details(int? id)
         {
-            return View(await RestHelper.ApiGet<MenuCategory>(menuCatApi, id));
+            var menus = await RestHelper.ApiGet<Menu>(menuApi);
+            var menucategory = await RestHelper.ApiGet<MenuCategory>(menuCatApi, id);
+            foreach (var item in menus)
+            {
+                if (menucategory.MenuId==item.Id)
+                {
+                    menucategory.Menu = item;
+                }
+            }
+            
+            return View(menucategory);
         }
 
         // GET: MenuCategories/Create
@@ -102,7 +112,17 @@ namespace ResAktWebb.Controllers
         [Authorize(Roles = "ResAdmin")]
         public async Task<IActionResult> Delete(int? id)
         {
-            return View(await RestHelper.ApiGet<MenuCategory>(menuCatApi, id));
+            var menus = await RestHelper.ApiGet<Menu>(menuApi);
+            var menucategory = await RestHelper.ApiGet<MenuCategory>(menuCatApi, id);
+            foreach (var item in menus)
+            {
+                if (menucategory.MenuId == item.Id)
+                {
+                    menucategory.Menu = item;
+                }
+            }
+
+            return View(menucategory);
         }
 
         // POST: MenuCategories/Delete/Id

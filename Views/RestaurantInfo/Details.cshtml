@@ -7,26 +7,26 @@
 }
 
 <div class="my-div">
-    <h1>Details</h1>
+    <h1>Detaljer</h1>
 
     <div>
-        <h4>RestaurantInfo</h4>
+        <h4>Restauranginformation</h4>
         <hr />
         <dl class="row">
             <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.Name)
+                @*@Html.DisplayNameFor(model => model.Name)*@Namn
             </dt>
             <dd class="col-sm-10">
                 @Html.DisplayFor(model => model.Name)
             </dd>
             <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.Open)
+                @*@Html.DisplayNameFor(model => model.Open)*@Öppet
             </dt>
             <dd class="col-sm-10">
                 @Html.DisplayFor(model => model.Open)
             </dd>
             <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.Closed)
+                @*@Html.DisplayNameFor(model => model.Closed)*@Stängt
             </dt>
             <dd class="col-sm-10">
                 @Html.DisplayFor(model => model.Closed)
@@ -34,7 +34,7 @@
         </dl>
     </div>
     <div>
-        <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
-        <a asp-action="Index">Back to List</a>
+        <a asp-action="Edit" asp-route-id="@Model.Id">Redigera</a> |
+        <a asp-action="Index">Tillbaka till lista</a>
     </div>
 </div>
