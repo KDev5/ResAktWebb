@@ -7,31 +7,31 @@
 
 <div class="my-div">
 
-    <h1>Index</h1>
+    <h1>Aktiviteter</h1>
 
     <p>
         @if (User.Identity.IsAuthenticated)
         {
-            <a asp-action="Create">Create New</a>
+            <a asp-action="Create">Skapa ny aktivitet</a>
         }
     </p>
     <table class="table">
         <thead>
             <tr>
                 <th>
-                    @Html.DisplayNameFor(model => model.Description)
+                    @*@Html.DisplayNameFor(model => model.Description)*@ Beskrivning
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Location)
+                    @*@Html.DisplayNameFor(model => model.Location)*@ Plats
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Price)
+                    @*@Html.DisplayNameFor(model => model.Price)*@ Pris
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.StartTime)
+                    @*@Html.DisplayNameFor(model => model.StartTime)*@ Börjar
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.EndTime)
+                    @*@Html.DisplayNameFor(model => model.EndTime)*@ Slutar
                 </th>
                 <th></th>
             </tr>
@@ -58,9 +58,9 @@
                     <td>
                         @if (User.Identity.IsAuthenticated)
                         {
-                            <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
-                            <a asp-action="Details" asp-route-id="@item.Id">Details</a>
-                            <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                            <a asp-action="Edit" asp-route-id="@item.Id">Redigera</a>
+                            <a asp-action="Details" asp-route-id="@item.Id">Detaljer</a>
+                            <a asp-action="Delete" asp-route-id="@item.Id">Ta bort</a>
                         }
                     </td>
                 </tr>
