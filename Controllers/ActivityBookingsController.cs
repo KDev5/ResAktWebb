@@ -10,7 +10,7 @@ using Newtonsoft.Json;
 using ResAktWebb.Data;
 using ResAktWebb.Models;
 using Microsoft.AspNetCore.Authorization;
-
+using Microsoft.Extensions.Logging;
 
 namespace ResAktWebb.Controllers
 {
@@ -20,10 +20,14 @@ namespace ResAktWebb.Controllers
         private readonly ResAktWebbContext _context; // Dbcontext. Används inte för att hämta data.
         private readonly string api = "ActivityBookings/"; // Connectionstring till api
 
+        // för loggning
+        private readonly ILogger<ActivityBookingsController> _logger;
 
-        public ActivityBookingsController(ResAktWebbContext context)
+
+        public ActivityBookingsController(ResAktWebbContext context, ILogger<ActivityBookingsController> logger)
         {
             _context = context;
+           _logger = logger;
         }
 
         // GET: ActivityBookings
@@ -103,8 +107,21 @@ namespace ResAktWebb.Controllers
         [Authorize(Roles = "ActAdmin")]
         public async Task<IActionResult> Edit(int? id)
         {
-            var activityBooking = await RestHelper.ApiGet<ActivityBooking>(api, id);
-            ViewData["ActivityId"] = new SelectList(_context.Activity, "Id", "Id", activityBooking.ActivityId);
+            var activityBooking = new ActivityBooking();
+			try
+			{
+                activityBooking = await RestHelper.ApiGet<ActivityBooking>(api, id);
+                var acts = await RestHelper.ApiGet<Activity>("Activities/");
+                System.Diagnostics.Debug.WriteLine(acts);
+                //_context går inte att använda då den inte har en koppling till databasen
+                //ViewData["ActivityId"] = new SelectList(_context.Activity, "Id", "Id", activityBooking.ActivityId);
+                ViewData["ActivityId"] = new SelectList(acts, "Id", "Description");
+            }
+			catch (Exception e)
+			{
+                _logger.LogError("<-- Error was caught when getting object to be edited --> \n " + e);
+			}
+            
             return View(activityBooking);
         }
 
@@ -113,6 +130,7 @@ namespace ResAktWebb.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,CustomerName,NumParticipants,ActivityId")] ActivityBooking activityBooking)
         {
+            _logger.LogInformation("<-- Returned to Edit/httppost-->");
             if (id != activityBooking.Id)
             {
                 return NotFound();
@@ -120,7 +138,7 @@ namespace ResAktWebb.Controllers
 
             if (ModelState.IsValid)
             {
-                await RestHelper.ApiEdit(api, id);
+                await RestHelper.ApiEdit(api + id, activityBooking);
                 return RedirectToAction(nameof(Index));
             }
             ViewData["ActivityId"] = new SelectList(_context.Activity, "Id", "Id", activityBooking.ActivityId);

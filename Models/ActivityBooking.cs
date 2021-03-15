@@ -25,7 +25,7 @@ namespace ResAktWebb.Models
         [ForeignKey("Activity")]
         [DisplayName("Aktivitet")]
 		public int ActivityId { get; set; }
-        [JsonIgnore]
+        //[JsonIgnore]
         [DisplayName("Aktivitet")]
         public virtual Activity Activity { get; set; }
 
