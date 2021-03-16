@@ -13,7 +13,7 @@ namespace ResAktWebb.Models
 		private static readonly HttpClient client = new HttpClient();
 		// Connectionstring till api.
 
-		private static readonly string api = "http://localhost:64014/api/";
+		private static readonly string api = "http://informatik12.ei.hv.se/grupp5v2/api/";
 
 		//private static readonly string api = "http://informatik12.ei.hv.se/grupp5/api/"; DEPRECATED
 
