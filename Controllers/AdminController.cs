@@ -18,7 +18,6 @@ namespace ResAktWebb.Controllers
 {
     public class AdminController : Controller
     {
-        private DateTime date1 = new DateTime();
         private readonly ResAktWebbContext _context;
         private readonly ILogger<AdminController> logger;
 
@@ -94,7 +93,7 @@ namespace ResAktWebb.Controllers
             catch (Exception e)
             {
 
-                logger.LogError("Error trying to verify user \n " + e);
+                logger.LogError("Error trying to verify user for login \n " + e);
                 return View();
             }
         }

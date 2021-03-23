@@ -27,9 +27,9 @@ namespace ResAktWebb.Controllers
             this.logger = logger;
         }
 
-        /// <summary>
-        /// Följande metoder använder sig utav en RestHelper class för att utföra API requests. 
-        /// </summary>
+
+        // Följande metoder använder sig utav en RestHelper class för att utföra  API requests. 
+
 
         // Connectionstring till api
         string api = "reservations/";
