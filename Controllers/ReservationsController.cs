@@ -11,17 +11,25 @@ using System.Net.Http;
 using Newtonsoft.Json;
 using System.Text;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.Extensions.Logging;
 
 namespace ResAktWebb.Controllers
 {
     public class ReservationsController : Controller
     {
         private readonly ResAktWebbContext _context;
+        private readonly ILogger<ReservationsController> logger;
 
-        public ReservationsController(ResAktWebbContext context)
+
+        public ReservationsController(ResAktWebbContext context, ILogger<ReservationsController> logger)
         {
             _context = context;
+            this.logger = logger;
         }
+
+        /// <summary>
+        /// Följande metoder använder sig utav en RestHelper class för API requests. 
+        /// </summary>
 
         // Connectionstring till api
         string api = "reservations/";
@@ -53,6 +61,7 @@ namespace ResAktWebb.Controllers
         public async Task<IActionResult> Create([Bind("Id,StartTime,EndTime,CustomerName,NumParticipants,TableNum")] Reservation reservation)
         {
             await RestHelper.ApiCreate<Reservation>(api, reservation);
+            //När användaren har skapat en reservation så kommer de att tas till respektive hemsida baserat på om de är inloggade som admin eller inte
             if (User.Identity.IsAuthenticated)
             {
                 return RedirectToAction("Index");
