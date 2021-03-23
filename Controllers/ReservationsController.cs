@@ -60,7 +60,15 @@ namespace ResAktWebb.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,StartTime,EndTime,CustomerName,NumParticipants,TableNum")] Reservation reservation)
         {
-            await RestHelper.ApiCreate<Reservation>(api, reservation);
+            try
+            {
+                await RestHelper.ApiCreate<Reservation>(api, reservation);
+            }
+            catch (Exception e)
+            {
+                logger.LogError("Error trying to create new reservation \n" + e);
+                throw;
+            }
             //När användaren har skapat en reservation så kommer de att tas till respektive hemsida baserat på om de är inloggade som admin eller inte
             if (User.Identity.IsAuthenticated)
             {
@@ -86,6 +94,7 @@ namespace ResAktWebb.Controllers
         public async Task<IActionResult> Edit(int id, [Bind("Id,StartTime,EndTime,CustomerName,NumParticipants,TableNum")] Reservation reservation)
         {
             await RestHelper.ApiEdit<Reservation>(api + id, reservation);
+            logger.LogInformation("Reservation information on id: " + id + " edited");
 
             return RedirectToAction("Index", "Reservations");
         }

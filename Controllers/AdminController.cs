@@ -18,6 +18,7 @@ namespace ResAktWebb.Controllers
 {
     public class AdminController : Controller
     {
+        private DateTime date1 = new DateTime();
         private readonly ResAktWebbContext _context;
         private readonly ILogger<AdminController> logger;
 
@@ -64,7 +65,7 @@ namespace ResAktWebb.Controllers
             //Om status är true ska den authenticate user
             try
             {
-                if (verifiedUser.Status != false)
+                if (verifiedUser.Status)
                 {
                     var identity = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationScheme);
                     for (int i = 0; i < verifiedUser.Role.Length; i++)
@@ -79,11 +80,13 @@ namespace ResAktWebb.Controllers
                         new ClaimsPrincipal(identity));
                     /*Temp fix: Den redirectar till reservations när man loggar in för jag får 
                      * inte den att redirecta vart man klickade innan inloggningssidan */
+                    logger.LogInformation("Successful login as user: " + admin.Username);
                     return Redirect("~/Home/Index/");
                 }
                 else
                 {
                     //Annars skriver den ut detta
+                    logger.LogInformation("Unsuccessful Login attempt. Username field: " + admin.Username);
                     ModelState.AddModelError("", "Inloggning ej godkänd");
                     return View();
                 }
@@ -99,7 +102,16 @@ namespace ResAktWebb.Controllers
         //Denna SignOut metod loggar ut användaren och redirectar dem tillbaka till home page
         public async Task<IActionResult> SignOut()
         {
-            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            try
+            {
+                await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+                logger.LogInformation("Logging out as user: " + User.Identity.Name);
+            }
+            catch (Exception e)
+            {
+
+                logger.LogError("Logout attempt failed \n" + e);
+            }
 
             return RedirectToAction("Index", "Home");
         }
