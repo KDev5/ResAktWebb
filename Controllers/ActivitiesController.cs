@@ -11,6 +11,9 @@ using ResAktWebb.Data;
 using ResAktWebb.Models;
 using Microsoft.AspNetCore.Authorization;
 
+// Egen skapt ClassLibrary för att hantera API-calls, finns under mappen ~/ClassLib
+using RestHelperLib;
+
 
 namespace ResAktWebb.Controllers
 {

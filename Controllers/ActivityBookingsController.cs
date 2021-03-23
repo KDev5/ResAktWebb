@@ -11,6 +11,7 @@ using ResAktWebb.Data;
 using ResAktWebb.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Logging;
+using RestHelperLib;
 
 namespace ResAktWebb.Controllers
 {
