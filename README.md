@@ -11,4 +11,4 @@ Projektet använder sig av en egen skapad ClassLibrary.dll vid namn [Resthelper]
 med alla modeller i projektet.
 
 ## Tillhörande API
-Det API som projektet använder sig av finns [HÄR, SeaSharp_Restaurang_och_Aktiviteter](https://github.com/Busky-B/SeaSharp_Restaurang_och_Aktiviteter)
+Det API som projektet använder sig av finns här:  [SeaSharp_Restaurang_och_Aktiviteter](https://github.com/Busky-B/SeaSharp_Restaurang_och_Aktiviteter)
