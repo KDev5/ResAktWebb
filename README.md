@@ -4,6 +4,7 @@
 [Gästens gränssnitt](http://informatik12.ei.hv.se/resakt) för Restaurang & Aktiviteter
 
 [Admins sidor](http://informatik12.ei.hv.se/resakt/Admin) för Restaurang & Aktiviteter
+Admin-funktionalitet är uppdelad 2 olika roller: RestaurangAdmin & AktivitetsAdmin
 
 ## Resthelper-class
 Projektet använder sig av en egen skapad ClassLibrary.dll vid namn [Resthelper](https://github.com/Busky-B/RestHelperLib) som förenklar API-calls. Klassen använder sig av generiska typer och fungerar därför
