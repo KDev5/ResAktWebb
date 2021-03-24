@@ -29,7 +29,8 @@ namespace ResAktWebb.Controllers
         // GET: MenuCategories
         public async Task<IActionResult> Index(int? id)
         {
-			
+            if (id!=null)
+            {
             var menuCategories = await RestHelper.ApiGet<MenuCategory>(menuCatApi);
             var menu = await RestHelper.ApiGet<Menu>(menuApi, id);
             List<MenuCategory> categoriesForMenuId = new List<MenuCategory>();
@@ -49,6 +50,11 @@ namespace ResAktWebb.Controllers
                         }
 
             return View(categoriesForMenuId);
+            }
+            else
+            {
+                return RedirectToAction("Index","Menus");
+            }
         }
         
         // GET: MenuCategories/Details/Id
