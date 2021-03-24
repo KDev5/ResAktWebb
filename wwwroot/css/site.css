@@ -26,12 +26,17 @@ header {
 .dropdown:hover .dropdown-content {
     display: block;
 }
-
+.my-link a, a:hover {
+    text-decoration: none !important;
+    font-weight: normal;
+    
+}
 .my-div {
     background-color: #fff;
     padding: 20px;
     border-radius: 15px;
     margin-top: 15px;
+    
 }
 .center-div {
     display:flex;
