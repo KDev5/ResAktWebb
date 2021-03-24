@@ -11,6 +11,7 @@ using System.Net.Http;
 using Newtonsoft.Json;
 using System.Text;
 using Microsoft.AspNetCore.Authorization;
+using RestHelperLib;
 using Microsoft.Extensions.Logging;
 
 namespace ResAktWebb.Controllers

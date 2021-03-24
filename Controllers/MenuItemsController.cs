@@ -11,6 +11,7 @@ using ResAktWebb.Data;
 using ResAktWebb.Models;
 using Microsoft.AspNetCore.Authorization;
 using System.Text;
+using RestHelperLib;
 
 namespace ResAktWebb.Controllers
 {
@@ -31,6 +32,8 @@ namespace ResAktWebb.Controllers
         // GET: MenuItems
         public async Task<IActionResult> Index(int? id)
         {
+            if (id!=null)
+            {
             var menuItems = await RestHelper.ApiGet<MenuItems>(menuItemApi);
             var menuCategory = await RestHelper.ApiGet<MenuCategory>(menuCatApi, id);
             ViewData["route"] = id;
@@ -42,9 +45,13 @@ namespace ResAktWebb.Controllers
                     {
                         itemsForCategoryId.Add(item);
                     }
-                    System.Diagnostics.Debug.WriteLine(item.Name + ", " + item.MenuCategoryId);
                 }
             return View(itemsForCategoryId);
+            }
+            else
+            {
+                return RedirectToAction("Index", "Menus");
+            }
         }
 
         // GET: MenuItems/Details/Id

@@ -3,10 +3,40 @@ for details on configuring this project to bundle and minify static web assets. 
 
 
 /* TOBBE CSS */
+header {
+    z-index:2;
+    margin-bottom: 0 !important;
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    padding: 12px 16px;
+    z-index: 1;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+.my-link a, a:hover {
+    text-decoration: none !important;
+    font-weight: normal;
+    
+}
 .my-div {
     background-color: #fff;
     padding: 20px;
     border-radius: 15px;
+    margin-top: 15px;
+    
 }
 .center-div {
     display:flex;
@@ -26,7 +56,25 @@ body {
     position: relative;
     background-color: #000;
 }
+/*.bg-img {*/
+    /*background-image: url("http://193.10.202.77/images/hotelbilden.jpg");*/
+    /*background-image: url("https://i.imgur.com/2y70y6L.jpg");
+    background-color: #000;
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 100%;
+    position: relative;
+    top: 15%;
+    height: 1000px;
 
+    margin-top: 0px !important;
+}*/
+
+@media only screen and (max-width: 600px ) {
+    .bg-img {
+        display:none;
+    }
+}
 
 .container-addition {
     color:red;
@@ -115,11 +163,11 @@ a.navbar-brand {
 
 /* Provide sufficient contrast against white background */
 a {
-  color: #0366d6;
+  color: #0366d6 !important;
 }
 
 .btn-primary {
-  color: #fff;
+  color: #fff !important;
   background-color: #1b6ec2;
   border-color: #1861ac;
 }

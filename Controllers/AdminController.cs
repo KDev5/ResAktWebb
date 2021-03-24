@@ -12,6 +12,9 @@ using System.Text;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using System.Security.Claims;
+
+using RestHelperLib;
+
 using Microsoft.Extensions.Logging;
 
 namespace ResAktWebb.Controllers
@@ -112,7 +115,7 @@ namespace ResAktWebb.Controllers
                 logger.LogError("Logout attempt failed \n" + e);
             }
 
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "Admin");
         }
 
 
