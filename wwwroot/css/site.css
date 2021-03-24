@@ -56,6 +56,37 @@ body {
     position: relative;
     background-color: #000;
 }
+
+/*Anton css*/
+
+.menu-div, .menu-maincategory, .menu-subcategory, .menu-item {
+    text-align: center;
+    margin: 0 0 50px 0;
+    font-family: 'Lucida Calligraphy' !important;
+}
+.menu-div{
+    font-size:50pt;
+}
+.menu-maincategory {
+    font-size: 30pt;
+    font-weight: bold;
+    color: #555;
+}
+.menu-subcategory {
+    color: #777;
+    font-size: 18pt;
+    
+}
+.menu-item div {
+    font-family: 'Baskerville Old Face' !important;
+    color: #777;
+}
+.menu-allergy {
+    font-size: 10pt;
+    font-style: oblique;
+}
+
+
 /*.bg-img {*/
     /*background-image: url("http://193.10.202.77/images/hotelbilden.jpg");*/
     /*background-image: url("https://i.imgur.com/2y70y6L.jpg");
